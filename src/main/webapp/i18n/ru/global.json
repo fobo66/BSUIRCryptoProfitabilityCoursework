@@ -8,6 +8,7 @@
             "entities": {
                 "main": "Сущности",
                 "cryptocurrency": "Cryptocurrency",
+                "videocard": "Videocard",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
