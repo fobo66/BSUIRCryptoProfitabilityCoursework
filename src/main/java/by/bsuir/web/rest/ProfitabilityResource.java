@@ -1,6 +1,7 @@
 package by.bsuir.web.rest;
 
 import by.bsuir.repository.CryptocurrencyRepository;
+import by.bsuir.repository.UserRepository;
 import by.bsuir.security.AuthoritiesConstants;
 import by.bsuir.service.ProfitabilityCalculatorService;
 import com.codahale.metrics.annotation.Timed;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 /**
  * REST controller for calculating profitability of the cryptocurrency mining.
  */
@@ -23,18 +26,21 @@ public class ProfitabilityResource {
 
     private final ProfitabilityCalculatorService profitabilityCalculatorService;
     private final CryptocurrencyRepository cryptocurrencyRepository;
+    private final UserRepository userRepository;
 
     public ProfitabilityResource(ProfitabilityCalculatorService profitabilityCalculatorService,
-                                 CryptocurrencyRepository cryptocurrencyRepository) {
+                                 CryptocurrencyRepository cryptocurrencyRepository, UserRepository userRepository) {
         this.profitabilityCalculatorService = profitabilityCalculatorService;
         this.cryptocurrencyRepository = cryptocurrencyRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/profitability")
     @Timed
     @Secured(AuthoritiesConstants.USER)
-    public ResponseEntity<Boolean> calculateProfitability() {
-        log.debug("Calculating profitability");
+    public ResponseEntity<Boolean> calculateProfitability(Principal principal) {
+        log.debug("Calculating profitability for user {}", principal.getName());
+        userRepository.findOneByLogin(principal.getName());
         return new ResponseEntity<>(
             profitabilityCalculatorService.isMiningProfitable(cryptocurrencyRepository.getOne(1L)), HttpStatus.OK);
     }
