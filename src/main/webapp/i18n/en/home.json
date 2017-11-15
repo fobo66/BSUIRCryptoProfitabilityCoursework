@@ -1,7 +1,7 @@
 {
     "home": {
-        "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "title": "Mining profitability calculations",
+        "subtitle": "See is it worth to mine cryptocurrency in your city with your hardware",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
