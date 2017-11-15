@@ -7,8 +7,8 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Сущности",
-                "cryptocurrency": "Cryptocurrency",
-                "videocard": "Videocard",
+                "cryptocurrency": "Криптовалюта",
+                "videocard": "Видеокарта",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -84,7 +84,7 @@
             "id" : "ID"
         },
         "ribbon": {
-            "dev":"Development"
+            "dev": "В разработке"
         },
         "item-count": "Showing {{first}} - {{second}} of {{total}} items."
     },
@@ -130,5 +130,5 @@
         "emailexists": "Эл. почта уже используется!!",
         "idexists": "Новый {{entityName}} не может иметь данный ID"
     },
-    "footer": "Это ваш футтер"
+    "footer": "(с) 2017 Андрей Мукамолов aka @fobo66"
 }

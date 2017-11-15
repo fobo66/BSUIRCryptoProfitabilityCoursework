@@ -2,23 +2,23 @@
     "courseworkApp": {
         "cryptocurrency": {
             "home": {
-                "title": "Cryptocurrencies",
-                "createLabel": "Создать новый Cryptocurrency",
-                "createOrEditLabel": "Создать или отредактировать Cryptocurrency",
-                "search": "Найти Cryptocurrency"
+                "title": "Криптовалюты",
+                "createLabel": "Создать новую криптовалюту",
+                "createOrEditLabel": "Создать или отредактировать криптовалюту",
+                "search": "Найти криптовалюту"
             },
-            "created": "Новый Cryptocurrency создан с идентификатором {{ param }}",
-            "updated": "Cryptocurrency обновлен с идентификатором {{ param }}",
-            "deleted": "Cryptocurrency удален с идентификатором {{ param }}",
+            "created": "Новая криптовалюта создана с идентификатором {{ param }}",
+            "updated": "Криптовалюта обновлена с идентификатором {{ param }}",
+            "deleted": "Криптовалюта удален с идентификатором {{ param }}",
             "delete": {
-                "question": "Вы уверены что хотите удалить Cryptocurrency {{ id }}?"
+                "question": "Вы уверены что хотите удалить криптовалюту {{ id }}?"
             },
             "detail": {
-                "title": "Cryptocurrency"
+                "title": "Криптовалюта"
             },
-            "name": "Name",
-            "shortName": "Short Name",
-            "price": "Price"
+            "name": "Название",
+            "shortName": "Короткое название",
+            "price": "Цена"
         }
     }
 }
