@@ -47,6 +47,10 @@ public class CacheConfiguration {
             cm.createCache(by.bsuir.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
             cm.createCache(by.bsuir.domain.Cryptocurrency.class.getName(), jcacheConfiguration);
             cm.createCache(by.bsuir.domain.Videocard.class.getName(), jcacheConfiguration);
+            cm.createCache(by.bsuir.domain.MiningInfo.class.getName(), jcacheConfiguration);
+            cm.createCache(by.bsuir.domain.PowerCost.class.getName(), jcacheConfiguration);
+            cm.createCache(by.bsuir.domain.HardwareInfo.class.getName(), jcacheConfiguration);
+            cm.createCache(by.bsuir.domain.ProfitabilityAnalysis.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

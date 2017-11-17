@@ -1,0 +1,24 @@
+{
+    "courseworkApp": {
+        "profitabilityAnalysis": {
+            "home": {
+                "title": "Profitability Analyses",
+                "createLabel": "Create a new Profitability Analysis",
+                "createOrEditLabel": "Create or edit a Profitability Analysis",
+                "search": "Search for Profitability Analysis"
+            },
+            "created": "A new Profitability Analysis is created with identifier {{ param }}",
+            "updated": "A Profitability Analysis is updated with identifier {{ param }}",
+            "deleted": "A Profitability Analysis is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Profitability Analysis {{ id }}?"
+            },
+            "detail": {
+                "title": "Profitability Analysis"
+            },
+            "date": "Date",
+            "result": "Result",
+            "user": "User"
+        }
+    }
+}

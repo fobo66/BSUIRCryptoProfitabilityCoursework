@@ -9,6 +9,10 @@
                 "main": "Сущности",
                 "cryptocurrency": "Криптовалюта",
                 "videocard": "Видеокарта",
+                "miningInfo": "Mining Info",
+                "powerCost": "Power Cost",
+                "hardwareInfo": "Hardware Info",
+                "profitabilityAnalysis": "Profitability Analysis",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

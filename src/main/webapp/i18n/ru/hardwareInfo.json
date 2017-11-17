@@ -1,0 +1,24 @@
+{
+    "courseworkApp": {
+        "hardwareInfo": {
+            "home": {
+                "title": "Hardware Infos",
+                "createLabel": "Создать новый Hardware Info",
+                "createOrEditLabel": "Создать или отредактировать Hardware Info",
+                "search": "Найти Hardware Info"
+            },
+            "created": "Новый Hardware Info создан с идентификатором {{ param }}",
+            "updated": "Hardware Info обновлен с идентификатором {{ param }}",
+            "deleted": "Hardware Info удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Hardware Info {{ id }}?"
+            },
+            "detail": {
+                "title": "Hardware Info"
+            },
+            "hashPower": "Hash Power",
+            "price": "Price",
+            "videocard": "Videocard"
+        }
+    }
+}
