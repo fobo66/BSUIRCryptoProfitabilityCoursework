@@ -13,6 +13,16 @@ public class ProfitabilityCalculatorServiceImpl implements ProfitabilityCalculat
 
     private final Logger log = LoggerFactory.getLogger(ProfitabilityCalculatorServiceImpl.class);
 
+    /*
+        hashTime = ((float) difficulty) * (Math.pow(2.0, 32) / (hashRate * 1000.0));
+        powerCostPerYear = 365.25 * 24.0 * powerConsumption / 1000.0 * electricityRate;
+        totalCost = powerCostPerYear + hardwareCost;
+        blocksPerYear =  (365.25 * 24.0 * 3600.0) / hashTime;
+        coinsPerYear = reward * blocksPerYear;
+        revenuePerYear = coinsPerYear * price;
+        profitPerYear = revenuePerYear - powerCostPerYear;
+        return revenuePerYear - totalCost > 0;
+    */
     @Override
     public boolean isMiningProfitable(Cryptocurrency cryptocurrency) {
         return false;
