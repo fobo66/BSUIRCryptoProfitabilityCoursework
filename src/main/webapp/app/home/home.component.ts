@@ -3,6 +3,8 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
+import {Cryptocurrency} from '../entities/cryptocurrency/cryptocurrency.model';
+import {Videocard} from '../entities/videocard/videocard.model';
 
 @Component({
     selector: 'jhi-home',
@@ -13,8 +15,12 @@ import { Account, LoginModalService, Principal } from '../shared';
 
 })
 export class HomeComponent implements OnInit {
+    cryptocurrencies: Cryptocurrency[];
+    videocards: Videocard[];
     account: Account;
     modalRef: NgbModalRef;
+
+    formSubmitted: boolean;
 
     constructor(
         private principal: Principal,
@@ -28,6 +34,7 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+        this.formSubmitted = false;
     }
 
     registerAuthenticationSuccess() {
@@ -44,5 +51,9 @@ export class HomeComponent implements OnInit {
 
     login() {
         this.modalRef = this.loginModalService.open();
+    }
+
+    calculateProfitability() {
+        this.formSubmitted = true;
     }
 }

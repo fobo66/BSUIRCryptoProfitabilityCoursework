@@ -13,17 +13,36 @@
             </div>
 
             <div class="form-group" *ngSwitchCase="true">
-                <label for="cryptoCurrencyName"
-                       jhiTranslate="home.form.cryptoCurrencyNameFormLabel">Cryptocurrency</label>
-                <select class="form-control" name="cryptoCurrencyName" id="cryptoCurrencyName"></select>
+                <form #profitabilityForm="ngForm" [hidden]="formSubmitted" (ngSubmit)="calculateProfitability()">
+                    <div class="form-row">
+                        <label for="cryptoCurrencyName"
+                               jhiTranslate="home.form.cryptoCurrencyNameFormLabel">Cryptocurrency</label>
+                        <select class="form-control" name="cryptoCurrency" id="cryptoCurrencyName" required>
+                            <option *ngFor="let cryptocurrency of cryptocurrencies" value="{{cryptocurrency.id}}">
+                                {{cryptocurrency.shortName}}
+                            </option>
+                        </select>
 
-                <label for="videocardName" jhiTranslate="home.form.videocardNameFormLabel">Videocard</label>
-                <select class="form-control" name="videocardName" id="videocardName"></select>
+                        <label for="videocardName" jhiTranslate="home.form.videocardNameFormLabel">Videocard</label>
+                        <select class="form-control" name="videocard" id="videocardName" required>
+                            <option *ngFor="let videocard of videocards" value="{{videocard.id}}">
+                                {{videocard.name}}
+                            </option>
+                        </select>
 
-                <label for="city" jhiTranslate="home.form.cityFormLabel">City</label>
-                <select class="form-control" name="city" id="city"></select>
+                        <label for="city" jhiTranslate="home.form.cityFormLabel">City</label>
+                        <select class="form-control" name="city" id="city" required>
 
-                <button type="submit" class="btn btn-primary" jhiTranslate="home.form.submitButton">Calculate</button>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <button type="submit" [disabled]="!profitabilityForm.form.valid"
+                                class="btn btn-primary" jhiTranslate="home.form.submitButton">
+                            Calculate
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">
