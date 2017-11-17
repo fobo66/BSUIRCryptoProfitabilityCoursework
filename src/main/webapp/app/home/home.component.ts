@@ -5,6 +5,9 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Account, LoginModalService, Principal } from '../shared';
 import {Cryptocurrency} from '../entities/cryptocurrency/cryptocurrency.model';
 import {Videocard} from '../entities/videocard/videocard.model';
+import {CryptocurrencyService} from "../entities/cryptocurrency/cryptocurrency.service";
+import {VideocardService} from "../entities/videocard/videocard.service";
+import {ResponseWrapper} from "../shared/model/response-wrapper.model";
 
 @Component({
     selector: 'jhi-home',
@@ -15,8 +18,8 @@ import {Videocard} from '../entities/videocard/videocard.model';
 
 })
 export class HomeComponent implements OnInit {
-    cryptocurrencies: Cryptocurrency[];
-    videocards: Videocard[];
+    cryptocurrencies: Cryptocurrency[] = [];
+    videocards: Videocard[] = [];
     account: Account;
     modalRef: NgbModalRef;
 
@@ -25,7 +28,9 @@ export class HomeComponent implements OnInit {
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private cryptocurrencyService: CryptocurrencyService,
+        private videocardService: VideocardService
     ) {
     }
 
@@ -35,6 +40,14 @@ export class HomeComponent implements OnInit {
         });
         this.registerAuthenticationSuccess();
         this.formSubmitted = false;
+        this.cryptocurrencyService.query()
+            .flatMap((res: ResponseWrapper) => {
+                this.cryptocurrencies.push(...res.json);
+                return this.videocardService.query();
+            })
+            .subscribe((res: ResponseWrapper) => {
+                this.videocards.push(...res.json)
+            });
     }
 
     registerAuthenticationSuccess() {
