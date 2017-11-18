@@ -17,12 +17,16 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171117180926_added_entity_ProfitabilityAnalysis.xml"
              relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171117174252_added_entity_MiningInfo.xml"
+             relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20171117174252_added_entity_constraints_MiningInfo.xml"
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171117180551_added_entity_constraints_HardwareInfo.xml"
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171117180926_added_entity_constraints_ProfitabilityAnalysis.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171117174252_added_entity_constraints_MiningInfo.xml"
              relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

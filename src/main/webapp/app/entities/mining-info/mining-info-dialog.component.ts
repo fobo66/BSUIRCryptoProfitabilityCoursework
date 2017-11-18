@@ -21,7 +21,7 @@ export class MiningInfoDialogComponent implements OnInit {
     miningInfo: MiningInfo;
     isSaving: boolean;
 
-    cryptocurrency_ids: Cryptocurrency[];
+    cryptocurrencies: Cryptocurrency[];
 
     constructor(public activeModal: NgbActiveModal,
                 private alertService: JhiAlertService,
@@ -35,13 +35,13 @@ export class MiningInfoDialogComponent implements OnInit {
         this.cryptocurrencyService
             .query({filter: 'mininginfo-is-null'})
             .subscribe((res: ResponseWrapper) => {
-                if (!this.miningInfo.cryptocurrency_id || !this.miningInfo.cryptocurrency_id.id) {
-                    this.cryptocurrency_ids = res.json;
+                if (!this.miningInfo.cryptocurrency || !this.miningInfo.cryptocurrency.id) {
+                    this.cryptocurrencies = res.json;
                 } else {
                     this.cryptocurrencyService
-                        .find(this.miningInfo.cryptocurrency_id.id)
+                        .find(this.miningInfo.cryptocurrency.id)
                         .subscribe((subRes: Cryptocurrency) => {
-                            this.cryptocurrency_ids = [subRes].concat(res.json);
+                            this.cryptocurrencies = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
@@ -62,19 +62,13 @@ export class MiningInfoDialogComponent implements OnInit {
         }
     }
 
-    trackCryptocurrencyById(index: number, item: Cryptocurrency) {
-        return item.id;
-    }
-
     private subscribeToSaveResponse(result: Observable<MiningInfo>) {
         result.subscribe((res: MiningInfo) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
-    private onSaveSuccess(result: MiningInfo) {
-        this.eventManager.broadcast({name: 'miningInfoListModification', content: 'OK'});
-        this.isSaving = false;
-        this.activeModal.dismiss(result);
+    trackCryptocurrencyById(index: number, item: Cryptocurrency) {
+        return item.id;
     }
 
     private onSaveError() {
@@ -83,6 +77,12 @@ export class MiningInfoDialogComponent implements OnInit {
 
     private onError(error: any) {
         this.alertService.error(error.message, null, null);
+    }
+
+    private onSaveSuccess(result: MiningInfo) {
+        this.eventManager.broadcast({name: 'miningInfoListModification', content: 'OK'});
+        this.isSaving = false;
+        this.activeModal.dismiss(result);
     }
 }
 

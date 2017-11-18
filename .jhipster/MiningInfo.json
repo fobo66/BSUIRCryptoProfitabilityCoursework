@@ -2,7 +2,7 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "cryptocurrency_id",
+            "relationshipName": "cryptocurrency",
             "otherEntityName": "cryptocurrency",
             "relationshipType": "one-to-one",
             "relationshipValidateRules": [

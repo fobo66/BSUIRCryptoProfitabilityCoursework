@@ -33,7 +33,6 @@ export class MiningInfoDetailComponent implements OnInit, OnDestroy {
             this.miningInfo = miningInfo;
         });
     }
-
     previousState() {
         window.history.back();
     }

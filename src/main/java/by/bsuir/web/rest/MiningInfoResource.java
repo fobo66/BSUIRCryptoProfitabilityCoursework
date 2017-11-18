@@ -30,12 +30,13 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @RequestMapping("/api")
 public class MiningInfoResource {
 
-    private static final String ENTITY_NAME = "miningInfo";
     private final Logger log = LoggerFactory.getLogger(MiningInfoResource.class);
+
+    private static final String ENTITY_NAME = "miningInfo";
+
     private final MiningInfoRepository miningInfoRepository;
 
     private final MiningInfoSearchRepository miningInfoSearchRepository;
-
     public MiningInfoResource(MiningInfoRepository miningInfoRepository, MiningInfoSearchRepository miningInfoSearchRepository) {
         this.miningInfoRepository = miningInfoRepository;
         this.miningInfoSearchRepository = miningInfoSearchRepository;

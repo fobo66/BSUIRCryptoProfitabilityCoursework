@@ -60,21 +60,21 @@
         </div>
 
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="courseworkApp.miningInfo.cryptocurrency_id"
-                   for="field_cryptocurrency_id">Cryptocurrency Id</label>
-            <select class="form-control" id="field_cryptocurrency_id" name="cryptocurrency_id"
-                    [(ngModel)]="miningInfo.cryptocurrency_id" required>
-                <option *ngIf="!editForm.value.cryptocurrency_id" [ngValue]="null" selected></option>
+            <label class="form-control-label" jhiTranslate="courseworkApp.miningInfo.cryptocurrency"
+                   for="field_cryptocurrency">Cryptocurrency</label>
+            <select class="form-control" id="field_cryptocurrency" name="cryptocurrency"
+                    [(ngModel)]="miningInfo.cryptocurrency" required>
+                <option *ngIf="!editForm.value.cryptocurrency" [ngValue]="null" selected></option>
                 <option
-                    [ngValue]="cryptocurrencyOption.id === miningInfo.cryptocurrency_id?.id ? miningInfo.cryptocurrency_id : cryptocurrencyOption"
-                    *ngFor="let cryptocurrencyOption of cryptocurrency_ids; trackBy: trackCryptocurrencyById">
+                    [ngValue]="cryptocurrencyOption.id === miningInfo.cryptocurrency?.id ? miningInfo.cryptocurrency : cryptocurrencyOption"
+                    *ngFor="let cryptocurrencyOption of cryptocurrencies; trackBy: trackCryptocurrencyById">
                     {{cryptocurrencyOption.id}}
                 </option>
             </select>
         </div>
-        <div [hidden]="!(editForm.controls.cryptocurrency_id?.dirty && editForm.controls.cryptocurrency_id?.invalid)">
+        <div [hidden]="!(editForm.controls.cryptocurrency?.dirty && editForm.controls.cryptocurrency?.invalid)">
             <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.cryptocurrency_id?.errors?.required"
+                   [hidden]="!editForm.controls.cryptocurrency?.errors?.required"
                    jhiTranslate="entity.validation.required">
                 This field is required.
             </small>

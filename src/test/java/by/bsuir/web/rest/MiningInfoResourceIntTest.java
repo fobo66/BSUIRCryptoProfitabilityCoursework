@@ -69,7 +69,7 @@ public class MiningInfoResourceIntTest {
 
     /**
      * Create an entity for this test.
-     * <p>
+     *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -78,10 +78,10 @@ public class MiningInfoResourceIntTest {
             .difficulty(DEFAULT_DIFFICULTY)
             .blockReward(DEFAULT_BLOCK_REWARD);
         // Add required entity
-        Cryptocurrency cryptocurrency_id = CryptocurrencyResourceIntTest.createEntity(em);
-        em.persist(cryptocurrency_id);
+        Cryptocurrency cryptocurrency = CryptocurrencyResourceIntTest.createEntity(em);
+        em.persist(cryptocurrency);
         em.flush();
-        miningInfo.setCryptocurrency_id(cryptocurrency_id);
+        miningInfo.setCryptocurrency(cryptocurrency);
         return miningInfo;
     }
 

@@ -1,3 +1,4 @@
+
 <div *ngIf="miningInfo">
     <h2><span jhiTranslate="courseworkApp.miningInfo.detail.title">Mining Info</span> {{miningInfo.id}}</h2>
     <hr>
@@ -11,10 +12,10 @@
         <dd>
             <span>{{miningInfo.blockReward}}</span>
         </dd>
-        <dt><span jhiTranslate="courseworkApp.miningInfo.cryptocurrency_id">Cryptocurrency Id</span></dt>
+        <dt><span jhiTranslate="courseworkApp.miningInfo.cryptocurrency">Cryptocurrency</span></dt>
         <dd>
-            <div *ngIf="miningInfo.cryptocurrency_id">
-                <a [routerLink]="['/cryptocurrency', miningInfo.cryptocurrency_id?.id]">{{miningInfo.cryptocurrency_id?.id}}</a>
+            <div *ngIf="miningInfo.cryptocurrency">
+                <a [routerLink]="['/cryptocurrency', miningInfo.cryptocurrency?.id]">{{miningInfo.cryptocurrency?.id}}</a>
             </div>
         </dd>
     </dl>

@@ -57,7 +57,6 @@ export class MiningInfoComponent implements OnInit, OnDestroy {
         this.currentSearch = '';
         this.loadAll();
     }
-
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -73,7 +72,6 @@ export class MiningInfoComponent implements OnInit, OnDestroy {
     trackId(index: number, item: MiningInfo) {
         return item.id;
     }
-
     registerChangeInMiningInfos() {
         this.eventSubscriber = this.eventManager.subscribe('miningInfoListModification', (response) => this.loadAll());
     }

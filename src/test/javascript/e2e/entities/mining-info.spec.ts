@@ -1,6 +1,5 @@
 import {browser, element, by, $} from 'protractor';
 import {NavBarPage} from './../page-objects/jhi-page-objects';
-
 const path = require('path');
 
 describe('MiningInfo e2e test', () => {
@@ -40,7 +39,7 @@ describe('MiningInfo e2e test', () => {
          expect(miningInfoDialogPage.getDifficultyInput()).toMatch('5');
          miningInfoDialogPage.setBlockRewardInput('5');
          expect(miningInfoDialogPage.getBlockRewardInput()).toMatch('5');
-         miningInfoDialogPage.cryptocurrency_idSelectLastOption();
+         miningInfoDialogPage.cryptocurrencySelectLastOption();
          miningInfoDialogPage.save();
          expect(miningInfoDialogPage.getSaveButton().isPresent()).toBeFalsy();
      }); */
@@ -69,30 +68,34 @@ export class MiningInfoDialogPage {
     closeButton = element(by.css('button.close'));
     difficultyInput = element(by.css('input#field_difficulty'));
     blockRewardInput = element(by.css('input#field_blockReward'));
-    cryptocurrency_idSelect = element(by.css('select#field_cryptocurrency_id'));
+    cryptocurrencySelect = element(by.css('select#field_cryptocurrency'));
+    cryptocurrencySelectLastOption = function () {
+        this.cryptocurrencySelect.all(by.tagName('option')).last().click();
+    }
+
     setDifficultyInput = function (difficulty) {
         this.difficultyInput.sendKeys(difficulty);
     }
+
     getDifficultyInput = function () {
         return this.difficultyInput.getAttribute('value');
     }
+
     setBlockRewardInput = function (blockReward) {
         this.blockRewardInput.sendKeys(blockReward);
     }
+
     getBlockRewardInput = function () {
         return this.blockRewardInput.getAttribute('value');
     }
-    cryptocurrency_idSelectLastOption = function () {
-        this.cryptocurrency_idSelect.all(by.tagName('option')).last().click();
+    cryptocurrencySelectOption = function (option) {
+        this.cryptocurrencySelect.sendKeys(option);
     }
-    cryptocurrency_idSelectOption = function (option) {
-        this.cryptocurrency_idSelect.sendKeys(option);
+    getCryptocurrencySelect = function () {
+        return this.cryptocurrencySelect;
     }
-    getCryptocurrency_idSelect = function () {
-        return this.cryptocurrency_idSelect;
-    }
-    getCryptocurrency_idSelectedOption = function () {
-        return this.cryptocurrency_idSelect.element(by.css('option:checked')).getText();
+    getCryptocurrencySelectedOption = function () {
+        return this.cryptocurrencySelect.element(by.css('option:checked')).getText();
     }
 
     getModalTitle() {

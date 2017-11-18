@@ -38,7 +38,7 @@ public class MiningInfo implements Serializable {
     @OneToOne(optional = false)
     @NotNull
     @JoinColumn(unique = true)
-    private Cryptocurrency cryptocurrency_id;
+    private Cryptocurrency cryptocurrency;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -53,21 +53,17 @@ public class MiningInfo implements Serializable {
         return difficulty;
     }
 
-    public void setDifficulty(Float difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public MiningInfo difficulty(Float difficulty) {
         this.difficulty = difficulty;
         return this;
     }
 
-    public Integer getBlockReward() {
-        return blockReward;
+    public void setDifficulty(Float difficulty) {
+        this.difficulty = difficulty;
     }
 
-    public void setBlockReward(Integer blockReward) {
-        this.blockReward = blockReward;
+    public Integer getBlockReward() {
+        return blockReward;
     }
 
     public MiningInfo blockReward(Integer blockReward) {
@@ -75,16 +71,20 @@ public class MiningInfo implements Serializable {
         return this;
     }
 
-    public Cryptocurrency getCryptocurrency_id() {
-        return cryptocurrency_id;
+    public void setBlockReward(Integer blockReward) {
+        this.blockReward = blockReward;
     }
 
-    public void setCryptocurrency_id(Cryptocurrency cryptocurrency) {
-        this.cryptocurrency_id = cryptocurrency;
+    public Cryptocurrency getCryptocurrency() {
+        return cryptocurrency;
     }
 
-    public MiningInfo cryptocurrency_id(Cryptocurrency cryptocurrency) {
-        this.cryptocurrency_id = cryptocurrency;
+    public void setCryptocurrency(Cryptocurrency cryptocurrency) {
+        this.cryptocurrency = cryptocurrency;
+    }
+
+    public MiningInfo cryptocurrency(Cryptocurrency cryptocurrency) {
+        this.cryptocurrency = cryptocurrency;
         return this;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
