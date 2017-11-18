@@ -1,6 +1,9 @@
 package by.bsuir.web.rest;
 
-import by.bsuir.repository.CryptocurrencyRepository;
+import by.bsuir.domain.MiningInfo;
+import by.bsuir.domain.ProfitabilityAnalysis;
+import by.bsuir.repository.MiningInfoRepository;
+import by.bsuir.repository.ProfitabilityAnalysisRepository;
 import by.bsuir.repository.UserRepository;
 import by.bsuir.security.AuthoritiesConstants;
 import by.bsuir.service.ProfitabilityCalculatorService;
@@ -14,34 +17,57 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 
 /**
  * REST controller for calculating profitability of the cryptocurrency mining.
  */
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping("/api")
 public class ProfitabilityResource {
     private final Logger log = LoggerFactory.getLogger(ProfitabilityResource.class);
 
     private final ProfitabilityCalculatorService profitabilityCalculatorService;
-    private final CryptocurrencyRepository cryptocurrencyRepository;
+    private final MiningInfoRepository miningInfoRepository;
     private final UserRepository userRepository;
+    private final ProfitabilityAnalysisRepository profitabilityAnalysisRepository;
 
     public ProfitabilityResource(ProfitabilityCalculatorService profitabilityCalculatorService,
-                                 CryptocurrencyRepository cryptocurrencyRepository, UserRepository userRepository) {
+                                 MiningInfoRepository miningInfoRepository, UserRepository userRepository,
+                                 ProfitabilityAnalysisRepository profitabilityAnalysisRepository) {
         this.profitabilityCalculatorService = profitabilityCalculatorService;
-        this.cryptocurrencyRepository = cryptocurrencyRepository;
+        this.miningInfoRepository = miningInfoRepository;
         this.userRepository = userRepository;
+        this.profitabilityAnalysisRepository = profitabilityAnalysisRepository;
     }
 
     @GetMapping("/profitability")
     @Timed
     @Secured(AuthoritiesConstants.USER)
-    public ResponseEntity<Boolean> calculateProfitability(Principal principal) {
-        log.debug("Calculating profitability for user {}", principal.getName());
-        userRepository.findOneByLogin(principal.getName());
+    public ResponseEntity<Boolean> calculateProfitability(HttpServletRequest req) {
+        String username = req.getUserPrincipal().getName();
+        long miningInfoId = Long.parseLong(req.getParameter("cryptoCurrencyMiningInfo"));
+        long videocardId = Long.parseLong(req.getParameter("videocard"));
+        String city = req.getParameter("city");
+
+        log.debug("Calculating profitability for user {}", username);
+        MiningInfo miningInfo = miningInfoRepository.getOne(miningInfoId);
+        boolean miningProfitable = profitabilityCalculatorService.isMiningProfitable(miningInfo);
+        saveProfitabilityAnalysisResult(username, miningProfitable);
         return new ResponseEntity<>(
-            profitabilityCalculatorService.isMiningProfitable(cryptocurrencyRepository.getOne(1L)), HttpStatus.OK);
+            miningProfitable, HttpStatus.OK);
+    }
+
+    private void saveProfitabilityAnalysisResult(String username, Boolean miningProfitable) {
+        userRepository.findOneByLogin(username).ifPresent((user -> {
+            ProfitabilityAnalysis profitabilityAnalysis = new ProfitabilityAnalysis();
+            profitabilityAnalysis
+                .date(LocalDate.now())
+                .user(user);
+            profitabilityAnalysis.setResult(miningProfitable);
+            profitabilityAnalysisRepository.save(profitabilityAnalysis);
+        }));
     }
 }

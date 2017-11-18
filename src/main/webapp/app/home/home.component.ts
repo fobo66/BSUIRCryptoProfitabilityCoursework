@@ -3,11 +3,11 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
-import {Cryptocurrency} from '../entities/cryptocurrency/cryptocurrency.model';
 import {Videocard} from '../entities/videocard/videocard.model';
-import {CryptocurrencyService} from "../entities/cryptocurrency/cryptocurrency.service";
-import {VideocardService} from "../entities/videocard/videocard.service";
-import {ResponseWrapper} from "../shared/model/response-wrapper.model";
+import {VideocardService} from '../entities/videocard/videocard.service';
+import {ResponseWrapper} from '../shared/model/response-wrapper.model';
+import {MiningInfoService} from '../entities/mining-info/mining-info.service';
+import {MiningInfo} from '../entities/mining-info/mining-info.model';
 
 @Component({
     selector: 'jhi-home',
@@ -18,7 +18,7 @@ import {ResponseWrapper} from "../shared/model/response-wrapper.model";
 
 })
 export class HomeComponent implements OnInit {
-    cryptocurrencies: Cryptocurrency[] = [];
+    miningInfoList: MiningInfo[] = [];
     videocards: Videocard[] = [];
     account: Account;
     modalRef: NgbModalRef;
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
-        private cryptocurrencyService: CryptocurrencyService,
+        private miningInfoService: MiningInfoService,
         private videocardService: VideocardService
     ) {
     }
@@ -40,9 +40,9 @@ export class HomeComponent implements OnInit {
         });
         this.registerAuthenticationSuccess();
         this.formSubmitted = false;
-        this.cryptocurrencyService.query()
+        this.miningInfoService.query()
             .flatMap((res: ResponseWrapper) => {
-                this.cryptocurrencies.push(...res.json);
+                this.miningInfoList.push(...res.json);
                 return this.videocardService.query();
             })
             .subscribe((res: ResponseWrapper) => {

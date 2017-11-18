@@ -1,6 +1,6 @@
 package by.bsuir.service.impl;
 
-import by.bsuir.domain.Cryptocurrency;
+import by.bsuir.domain.MiningInfo;
 import by.bsuir.service.ProfitabilityCalculatorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class ProfitabilityCalculatorServiceImpl implements ProfitabilityCalculat
         return revenuePerYear - totalCost > 0;
     */
     @Override
-    public boolean isMiningProfitable(Cryptocurrency cryptocurrency) {
+    public boolean isMiningProfitable(MiningInfo miningInfo) {
         return false;
     }
 }

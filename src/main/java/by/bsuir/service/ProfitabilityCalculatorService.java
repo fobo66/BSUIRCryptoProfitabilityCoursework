@@ -1,7 +1,7 @@
 package by.bsuir.service;
 
-import by.bsuir.domain.Cryptocurrency;
+import by.bsuir.domain.MiningInfo;
 
 public interface ProfitabilityCalculatorService {
-    boolean isMiningProfitable(Cryptocurrency cryptocurrency);
+    boolean isMiningProfitable(MiningInfo miningInfo);
 }

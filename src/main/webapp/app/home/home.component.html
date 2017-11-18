@@ -17,9 +17,9 @@
                     <div class="form-row">
                         <label for="cryptoCurrencyName"
                                jhiTranslate="home.form.cryptoCurrencyNameFormLabel">Cryptocurrency</label>
-                        <select class="form-control" name="cryptoCurrency" id="cryptoCurrencyName" required>
-                            <option *ngFor="let cryptocurrency of cryptocurrencies" value="{{cryptocurrency.id}}">
-                                {{cryptocurrency.shortName}}
+                        <select class="form-control" name="cryptoCurrencyMiningInfo" id="cryptoCurrencyName" required>
+                            <option *ngFor="let miningInfo of miningInfoList" value="{{miningInfo.id}}">
+                                {{miningInfo.cryptocurrency?.shortName}}
                             </option>
                         </select>
 
