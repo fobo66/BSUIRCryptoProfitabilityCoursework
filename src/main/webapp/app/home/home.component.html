@@ -13,26 +13,31 @@
             </div>
 
             <div class="form-group" *ngSwitchCase="true">
-                <form #profitabilityForm="ngForm" [hidden]="formSubmitted" (ngSubmit)="calculateProfitability()">
+                <form #profitabilityForm="ngForm" [hidden]="formSubmitted"
+                      (ngSubmit)="calculateProfitability(formData)">
                     <div class="form-row">
                         <label for="cryptoCurrencyName"
                                jhiTranslate="home.form.cryptoCurrencyNameFormLabel">Cryptocurrency</label>
-                        <select class="form-control" name="cryptoCurrencyMiningInfo" id="cryptoCurrencyName" required>
+                        <select class="form-control" name="cryptoCurrencyMiningInfo" id="cryptoCurrencyName" required
+                                [(ngModel)]="formData.cryptoCurrencyMiningInfo">
                             <option *ngFor="let miningInfo of miningInfoList" value="{{miningInfo.id}}">
                                 {{miningInfo.cryptocurrency?.shortName}}
                             </option>
                         </select>
 
                         <label for="videocardName" jhiTranslate="home.form.videocardNameFormLabel">Videocard</label>
-                        <select class="form-control" name="videocard" id="videocardName" required>
-                            <option *ngFor="let videocard of videocards" value="{{videocard.id}}">
-                                {{videocard.name}}
+                        <select class="form-control" name="hardware" id="videocardName" required
+                                [(ngModel)]="formData.hardware">
+                            <option *ngFor="let hardware of hardwareInfoList" value="{{hardware.id}}">
+                                {{hardware.videocard?.name}}
                             </option>
                         </select>
 
                         <label for="city" jhiTranslate="home.form.cityFormLabel">City</label>
-                        <select class="form-control" name="city" id="city" required>
-
+                        <select class="form-control" name="city" id="city" required [(ngModel)]="formData.city">
+                            <option *ngFor="let powerCost of powerCostList" value="{{powerCost.city}}">
+                                {{powerCost.city}}
+                            </option>
                         </select>
                     </div>
 

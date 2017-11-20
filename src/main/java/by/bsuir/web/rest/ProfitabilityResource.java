@@ -1,6 +1,5 @@
 package by.bsuir.web.rest;
 
-import by.bsuir.domain.MiningInfo;
 import by.bsuir.domain.ProfitabilityAnalysis;
 import by.bsuir.repository.MiningInfoRepository;
 import by.bsuir.repository.ProfitabilityAnalysisRepository;
@@ -30,7 +29,6 @@ public class ProfitabilityResource {
     private final Logger log = LoggerFactory.getLogger(ProfitabilityResource.class);
 
     private final ProfitabilityCalculatorService profitabilityCalculatorService;
-    private final MiningInfoRepository miningInfoRepository;
     private final UserRepository userRepository;
     private final ProfitabilityAnalysisRepository profitabilityAnalysisRepository;
 
@@ -38,7 +36,6 @@ public class ProfitabilityResource {
                                  MiningInfoRepository miningInfoRepository, UserRepository userRepository,
                                  ProfitabilityAnalysisRepository profitabilityAnalysisRepository) {
         this.profitabilityCalculatorService = profitabilityCalculatorService;
-        this.miningInfoRepository = miningInfoRepository;
         this.userRepository = userRepository;
         this.profitabilityAnalysisRepository = profitabilityAnalysisRepository;
     }
@@ -49,15 +46,14 @@ public class ProfitabilityResource {
     public ResponseEntity<Boolean> calculateProfitability(HttpServletRequest req) {
         String username = req.getUserPrincipal().getName();
         long miningInfoId = Long.parseLong(req.getParameter("cryptoCurrencyMiningInfo"));
-        long videocardId = Long.parseLong(req.getParameter("videocard"));
+        long hardwareInfoId = Long.parseLong(req.getParameter("hardware"));
         String city = req.getParameter("city");
 
         log.debug("Calculating profitability for user {}", username);
-        MiningInfo miningInfo = miningInfoRepository.getOne(miningInfoId);
-        boolean miningProfitable = profitabilityCalculatorService.isMiningProfitable(miningInfo);
+        boolean miningProfitable = profitabilityCalculatorService.isMiningProfitable(miningInfoId, hardwareInfoId, city);
         saveProfitabilityAnalysisResult(username, miningProfitable);
-        return new ResponseEntity<>(
-            miningProfitable, HttpStatus.OK);
+
+        return new ResponseEntity<>(miningProfitable, HttpStatus.OK);
     }
 
     private void saveProfitabilityAnalysisResult(String username, Boolean miningProfitable) {

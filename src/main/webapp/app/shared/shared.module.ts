@@ -1,22 +1,23 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {DatePipe} from '@angular/common';
 
 import {
-    CourseworkSharedLibsModule,
-    CourseworkSharedCommonModule,
-    CSRFService,
-    AuthServerProvider,
     AccountService,
-    UserService,
-    StateStorageService,
-    LoginService,
-    LoginModalService,
-    Principal,
+    AuthServerProvider,
+    CourseworkSharedCommonModule,
+    CourseworkSharedLibsModule,
+    CSRFService,
     HasAnyAuthorityDirective,
+    JhiLoginModalComponent,
     JhiSocialComponent,
+    LoginModalService,
+    LoginService,
+    Principal,
     SocialService,
-    JhiLoginModalComponent
+    StateStorageService,
+    UserService
 } from './';
+import {ProfitabilityService} from "./profitability/profitability.service";
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import {
         AuthServerProvider,
         SocialService,
         UserService,
-        DatePipe
+        DatePipe,
+        ProfitabilityService
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [

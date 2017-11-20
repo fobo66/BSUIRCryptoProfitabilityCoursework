@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import {Component, OnInit} from '@angular/core';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { Account, LoginModalService, Principal } from '../shared';
-import {Videocard} from '../entities/videocard/videocard.model';
-import {VideocardService} from '../entities/videocard/videocard.service';
+import {Account, LoginModalService, Principal} from '../shared';
 import {ResponseWrapper} from '../shared/model/response-wrapper.model';
 import {MiningInfoService} from '../entities/mining-info/mining-info.service';
 import {MiningInfo} from '../entities/mining-info/mining-info.model';
+import {HardwareInfoService} from '../entities/hardware-info/hardware-info.service';
+import {HardwareInfo} from '../entities/hardware-info/hardware-info.model';
+import {PowerCostService} from '../entities/power-cost/power-cost.service';
+import {PowerCost} from '../entities/power-cost/power-cost.model';
+import {ProfitabilityService} from '../shared/profitability/profitability.service';
 
 @Component({
     selector: 'jhi-home',
@@ -19,18 +22,22 @@ import {MiningInfo} from '../entities/mining-info/mining-info.model';
 })
 export class HomeComponent implements OnInit {
     miningInfoList: MiningInfo[] = [];
-    videocards: Videocard[] = [];
+    hardwareInfoList: HardwareInfo[] = [];
+    powerCostList: PowerCost[] = [];
     account: Account;
     modalRef: NgbModalRef;
 
     formSubmitted: boolean;
+    formData = {};
 
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
         private miningInfoService: MiningInfoService,
-        private videocardService: VideocardService
+        private hardwareInfoService: HardwareInfoService,
+        private powerCostService: PowerCostService,
+        private profitabilityService: ProfitabilityService
     ) {
     }
 
@@ -43,10 +50,14 @@ export class HomeComponent implements OnInit {
         this.miningInfoService.query()
             .flatMap((res: ResponseWrapper) => {
                 this.miningInfoList.push(...res.json);
-                return this.videocardService.query();
+                return this.hardwareInfoService.query();
+            })
+            .flatMap((res: ResponseWrapper) => {
+                this.hardwareInfoList.push(...res.json);
+                return this.powerCostService.query();
             })
             .subscribe((res: ResponseWrapper) => {
-                this.videocards.push(...res.json)
+                this.powerCostList.push(...res.json);
             });
     }
 
@@ -66,7 +77,10 @@ export class HomeComponent implements OnInit {
         this.modalRef = this.loginModalService.open();
     }
 
-    calculateProfitability() {
-        this.formSubmitted = true;
+    calculateProfitability(formData: any) {
+        //this.formSubmitted = true;
+        console.log(formData);
+        this.profitabilityService.calculateProfitability(formData)
+            .subscribe((result) => console.log(result));
     }
 }

@@ -14,4 +14,6 @@ import java.util.Optional;
 @Repository
 public interface PowerCostRepository extends JpaRepository<PowerCost, Long> {
     Optional<PowerCost> findOneByCity(String city);
+
+    PowerCost getByCity(String city);
 }
