@@ -19,7 +19,8 @@
             "cryptoCurrencyNameFormLabel": "Cryptocurrency",
             "videocardNameFormLabel": "Videocard",
             "cityFormLabel": "City",
-            "submitButton": "Calculate"
+            "submitButton": "Calculate",
+            "reset": "Reset"
         },
         "profitability": {
             "profitable": "Congrats! You can mine cryptocurrencies on your hardware.",

@@ -92,4 +92,9 @@ export class HomeComponent implements OnInit {
             this.alertService.error(message);
         }
     }
+
+    resetForm() {
+        this.formSubmitted = false;
+        this.alertService.clear();
+    }
 }

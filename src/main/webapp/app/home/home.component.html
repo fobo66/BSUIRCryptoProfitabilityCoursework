@@ -42,13 +42,18 @@
                         </select>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-row profitability-form-button-container">
                         <button type="submit" [disabled]="!profitabilityForm.form.valid"
                                 class="btn btn-primary" jhiTranslate="home.form.submitButton">
                             Calculate
                         </button>
                     </div>
                 </form>
+                <div class="form-row profitability-form-button-container">
+                    <button class="btn" jhiTranslate="home.form.reset" [hidden]="!formSubmitted" (click)="resetForm()">
+                        Reset
+                    </button>
+                </div>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">

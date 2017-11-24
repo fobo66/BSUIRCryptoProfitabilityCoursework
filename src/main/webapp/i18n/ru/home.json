@@ -19,7 +19,8 @@
             "cryptoCurrencyNameFormLabel": "Криптовалюта",
             "videocardNameFormLabel": "Видеокарта",
             "cityFormLabel": "Город",
-            "submitButton": "Рассчитать"
+            "submitButton": "Рассчитать",
+            "reset": "Ещё раз"
         },
         "profitability": {
             "profitable": "Вы можете майнить на вашей видеокарте, это будет даже прибыльно.",
