@@ -20,6 +20,10 @@
             "videocardNameFormLabel": "Videocard",
             "cityFormLabel": "City",
             "submitButton": "Calculate"
+        },
+        "profitability": {
+            "profitable": "Congrats! You can mine cryptocurrencies on your hardware.",
+            "unprofitable": "Sorry, but your hardware isn't for mining."
         }
     }
 }

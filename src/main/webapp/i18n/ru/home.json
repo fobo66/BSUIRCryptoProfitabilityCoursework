@@ -20,6 +20,10 @@
             "videocardNameFormLabel": "Видеокарта",
             "cityFormLabel": "Город",
             "submitButton": "Рассчитать"
+        },
+        "profitability": {
+            "profitable": "Вы можете майнить на вашей видеокарте, это будет даже прибыльно.",
+            "unprofitable": "У вас не получится майнить с прибылью."
         }
     }
 }

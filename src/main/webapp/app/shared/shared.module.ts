@@ -17,7 +17,7 @@ import {
     StateStorageService,
     UserService
 } from './';
-import {ProfitabilityService} from "./profitability/profitability.service";
+import {ProfitabilityService} from './profitability/profitability.service';
 
 @NgModule({
     imports: [

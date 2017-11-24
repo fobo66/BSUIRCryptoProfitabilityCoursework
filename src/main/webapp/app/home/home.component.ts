@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 
 import {Account, LoginModalService, Principal} from '../shared';
 import {ResponseWrapper} from '../shared/model/response-wrapper.model';
@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
+        private alertService: JhiAlertService,
         private miningInfoService: MiningInfoService,
         private hardwareInfoService: HardwareInfoService,
         private powerCostService: PowerCostService,
@@ -78,9 +79,17 @@ export class HomeComponent implements OnInit {
     }
 
     calculateProfitability(formData: any) {
-        //this.formSubmitted = true;
-        console.log(formData);
+        this.formSubmitted = true;
         this.profitabilityService.calculateProfitability(formData)
-            .subscribe((result) => console.log(result));
+            .subscribe((result) => this.onProfitabilityResult(result));
+    }
+
+    onProfitabilityResult(result: boolean) {
+        const message = result ? "home.profitability.profitable" : "home.profitability.unprofitable";
+        if (result) {
+            this.alertService.success(message);
+        } else {
+            this.alertService.error(message);
+        }
     }
 }
