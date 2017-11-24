@@ -9,10 +9,10 @@
                 "main": "Сущности",
                 "cryptocurrency": "Криптовалюта",
                 "videocard": "Видеокарта",
-                "miningInfo": "Mining Info",
-                "powerCost": "Power Cost",
-                "hardwareInfo": "Hardware Info",
-                "profitabilityAnalysis": "Profitability Analysis",
+                "miningInfo": "Информация для майнинга",
+                "powerCost": "Стоимость электричества",
+                "hardwareInfo": "Информайция о железе",
+                "profitabilityAnalysis": "История запросов",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -120,7 +120,7 @@
             "minbytes": "Это поле должно быть больше, чем {{min}} байтов.",
             "maxbytes": "Это поле не может быть больше, чем {{max}} байтов.",
             "pattern": "Это поле должно следовать модели {{pattern}}.",
-            "number": "Это поле должно быть число.",
+            "number": "Это поле должно быть числом.",
             "datetimelocal": "Это поле должно быть дата и время."
         }
     },

@@ -2,23 +2,23 @@
     "courseworkApp": {
         "profitabilityAnalysis": {
             "home": {
-                "title": "Profitability Analyses",
-                "createLabel": "Создать новый Profitability Analysis",
-                "createOrEditLabel": "Создать или отредактировать Profitability Analysis",
-                "search": "Найти Profitability Analysis"
+                "title": "История запросов",
+                "createLabel": "Создать новый объект истории",
+                "createOrEditLabel": "Создать или отредактировать объект истории",
+                "search": "Найти в истории"
             },
-            "created": "Новый Profitability Analysis создан с идентификатором {{ param }}",
-            "updated": "Profitability Analysis обновлен с идентификатором {{ param }}",
-            "deleted": "Profitability Analysis удален с идентификатором {{ param }}",
+            "created": "Новый объект истории создан с идентификатором {{ param }}",
+            "updated": "Объект истории обновлен с идентификатором {{ param }}",
+            "deleted": "Объект истории удален с идентификатором {{ param }}",
             "delete": {
-                "question": "Вы уверены что хотите удалить Profitability Analysis {{ id }}?"
+                "question": "Вы уверены что хотите удалить объект истории {{ id }}?"
             },
             "detail": {
-                "title": "Profitability Analysis"
+                "title": "История запросов"
             },
-            "date": "Date",
-            "result": "Result",
-            "user": "User"
+            "date": "Дата",
+            "result": "Результат",
+            "user": "Пользователь"
         }
     }
 }
