@@ -1,12 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Rx';
-import {JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService} from 'ng-jhipster';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 
 import {ProfitabilityAnalysis} from './profitability-analysis.model';
 import {ProfitabilityAnalysisService} from './profitability-analysis.service';
-import {ITEMS_PER_PAGE, Principal, ResponseWrapper} from '../../shared';
-import {PaginationConfig} from '../../blocks/config/uib-pagination.config';
+import {Principal, ResponseWrapper} from '../../shared';
 
 @Component({
     selector: 'jhi-profitability-analysis',
@@ -36,7 +35,7 @@ export class ProfitabilityAnalysisComponent implements OnInit, OnDestroy {
             );
             return;
         }
-        this.profitabilityAnalysisService.query().subscribe(
+        this.profitabilityAnalysisService.getUserAnalysises().subscribe(
             (res: ResponseWrapper) => {
                 this.profitabilityAnalyses = res.json;
                 this.currentSearch = '';

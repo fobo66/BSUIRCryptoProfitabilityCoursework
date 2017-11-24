@@ -18,6 +18,16 @@
                     </span>
                 </a>
             </li>
+            <li *ngSwitchCase="true" class="nav-item" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="profitability-analysis" routerLinkActive="active"
+                   [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <span>
+                        <i class="fa fa-history" aria-hidden="true"></i>
+                        <span jhiTranslate="global.menu.entities.profitabilityAnalysis">Profitability Analysis</span>
+                    </span>
+                </a>
+            </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
@@ -63,21 +73,6 @@
                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.hardwareInfo">Hardware Info</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="profitability-analysis" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span
-                                jhiTranslate="global.menu.entities.profitabilityAnalysis">Profitability Analysis</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="mining-info" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.miningInfo">Mining Info</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

@@ -6,7 +6,7 @@ import {SERVER_API_URL} from '../../app.constants';
 import {JhiDateUtils} from 'ng-jhipster';
 
 import {ProfitabilityAnalysis} from './profitability-analysis.model';
-import {ResponseWrapper, createRequestOption} from '../../shared';
+import {createRequestOption, ResponseWrapper} from '../../shared';
 
 @Injectable()
 export class ProfitabilityAnalysisService {
@@ -41,6 +41,11 @@ export class ProfitabilityAnalysisService {
             this.convertItemFromServer(jsonResponse);
             return jsonResponse;
         });
+    }
+
+    getUserAnalysises(): Observable<ResponseWrapper> {
+        return this.http.get(`${this.resourceUrl}/user`)
+            .map((res: Response) => this.convertResponse(res));
     }
 
     query(req?: any): Observable<ResponseWrapper> {

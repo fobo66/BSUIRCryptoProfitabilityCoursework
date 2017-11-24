@@ -1,27 +1,27 @@
 package by.bsuir.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import by.bsuir.domain.ProfitabilityAnalysis;
-
 import by.bsuir.repository.ProfitabilityAnalysisRepository;
 import by.bsuir.repository.search.ProfitabilityAnalysisSearchRepository;
+import by.bsuir.security.AuthoritiesConstants;
 import by.bsuir.web.rest.util.HeaderUtil;
+import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * REST controller for managing ProfitabilityAnalysis.
@@ -95,6 +95,19 @@ public class ProfitabilityAnalysisResource {
     public List<ProfitabilityAnalysis> getAllProfitabilityAnalyses() {
         log.debug("REST request to get all ProfitabilityAnalyses");
         return profitabilityAnalysisRepository.findAll();
+    }
+
+    /**
+     * GET  /profitability-analyses : get all the profitabilityAnalyses.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of profitabilityAnalyses in body
+     */
+    @GetMapping("/profitability-analyses/user")
+    @Secured(AuthoritiesConstants.USER)
+    @Timed
+    public List<ProfitabilityAnalysis> getAllProfitabilityAnalysesForCurrentUser() {
+        log.debug("REST request to get user's ProfitabilityAnalyses");
+        return profitabilityAnalysisRepository.findByUserIsCurrentUser();
     }
 
     /**
