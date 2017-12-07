@@ -11,7 +11,7 @@
                 "videocard": "Видеокарта",
                 "miningInfo": "Информация для майнинга",
                 "powerCost": "Стоимость электричества",
-                "hardwareInfo": "Информайция о железе",
+                "hardwareInfo": "Информация о железе",
                 "profitabilityAnalysis": "История запросов",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
@@ -90,7 +90,7 @@
         "ribbon": {
             "dev": "В разработке"
         },
-        "item-count": "Showing {{first}} - {{second}} of {{total}} items."
+        "item-count": "{{first}} - {{second}} из {{total}} элементов."
     },
     "entity": {
         "action": {
