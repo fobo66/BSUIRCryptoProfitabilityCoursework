@@ -27,13 +27,6 @@ describe('ProfitabilityAnalysis e2e test', () => {
 
     });
 
-    it('should load create ProfitabilityAnalysis dialog', () => {
-        profitabilityAnalysisComponentsPage.clickOnCreateButton();
-        profitabilityAnalysisDialogPage = new ProfitabilityAnalysisDialogPage();
-        expect(profitabilityAnalysisDialogPage.getModalTitle()).toMatch(/courseworkApp.profitabilityAnalysis.home.createOrEditLabel/);
-        profitabilityAnalysisDialogPage.close();
-    });
-
     /* it('should create and save ProfitabilityAnalyses', () => {
          profitabilityAnalysisComponentsPage.clickOnCreateButton();
          profitabilityAnalysisDialogPage.setDateInput('2000-12-31');

@@ -38,8 +38,8 @@ describe('Cryptocurrency e2e test', () => {
         cryptocurrencyComponentsPage.clickOnCreateButton();
         cryptocurrencyDialogPage.setNameInput('name');
         expect(cryptocurrencyDialogPage.getNameInput()).toMatch('name');
-        cryptocurrencyDialogPage.setShortNameInput('shortName');
-        expect(cryptocurrencyDialogPage.getShortNameInput()).toMatch('shortName');
+        cryptocurrencyDialogPage.setShortNameInput('short');
+        expect(cryptocurrencyDialogPage.getShortNameInput()).toMatch('short');
         cryptocurrencyDialogPage.setPriceInput('5');
         expect(cryptocurrencyDialogPage.getPriceInput()).toMatch('5');
         cryptocurrencyDialogPage.save();
