@@ -48,6 +48,9 @@ export class HomeComponent implements OnInit {
         });
         this.registerAuthenticationSuccess();
         this.formSubmitted = false;
+    }
+
+    private loadDataForProfitabilityCalculation() {
         this.miningInfoService.query()
             .flatMap((res: ResponseWrapper) => {
                 this.miningInfoList.push(...res.json);
@@ -66,7 +69,8 @@ export class HomeComponent implements OnInit {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;
-            });
+            })
+            .then(() => this.loadDataForProfitabilityCalculation());
         });
     }
 
