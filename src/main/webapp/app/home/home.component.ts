@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
     }
 
     onProfitabilityResult(result: boolean) {
-        const message = result ? "home.profitability.profitable" : "home.profitability.unprofitable";
+        const message = result ? 'home.profitability.profitable' : 'home.profitability.unprofitable';
         if (result) {
             this.alertService.success(message);
         } else {
