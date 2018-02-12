@@ -73,8 +73,8 @@ spring:
     social:
         # see https://developers.google.com/+/web/signin/server-side-flow#step_1_create_a_client_id_and_client_secret
         google:
-            client-id:  699326253601-q3n3bjvdkg0f7f9nq147oidh33m2b7sn.apps.googleusercontent.com
-            client-secret:  8tcRvkvkPrLgE7OK2dB6rWob
+            client-id:  changeme
+            client-secret:  changeme
 
         # jhipster-needle-add-social-configuration
 
@@ -116,7 +116,7 @@ jhipster:
         default-include-pattern: /api/.*
         title: coursework API
         description: coursework API documentation
-        version: 0.0.1
+        version: 1.0.0
         terms-of-service-url:
         contact-name:
         contact-url:
