@@ -1,24 +1,25 @@
 {
-    "courseworkApp": {
-        "miningInfo": {
-            "home": {
-                "title": "Информация для майнинга",
-                "createLabel": "Создать новую информацию для майнинга",
-                "createOrEditLabel": "Создать или отредактировать информацию для майнинга",
-                "search": "Найти информацию для майнинга"
-            },
-            "created": "Новая информация для майнинга создана с идентификатором {{ param }}",
-            "updated": "Информация для майнинга обновлена с идентификатором {{ param }}",
-            "deleted": "Информация для майнинга удалена с идентификатором {{ param }}",
-            "delete": {
-                "question": "Вы уверены что хотите удалить информацию для майнинга {{ id }}?"
-            },
-            "detail": {
-                "title": "Информация для майнинга"
-            },
-            "difficulty": "Сложность",
-            "blockReward": "Награда за блок",
-            "cryptocurrency": "Криптовалюта"
-        }
+  "courseworkApp": {
+    "miningInfo": {
+      "home": {
+        "title": "Mining Infos",
+        "createLabel": "Создать новый Mining Info",
+        "createOrEditLabel": "Создать или отредактировать Mining Info",
+        "search": "Найти Mining Info",
+        "notFound": "No Mining Infos found"
+      },
+      "created": "Новый Mining Info создан с идентификатором {{ param }}",
+      "updated": "Mining Info обновлен с идентификатором {{ param }}",
+      "deleted": "Mining Info удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Mining Info {{ id }}?"
+      },
+      "detail": {
+        "title": "Mining Info"
+      },
+      "difficulty": "Difficulty",
+      "blockReward": "Block Reward",
+      "cryptocurrency": "Cryptocurrency"
     }
+  }
 }

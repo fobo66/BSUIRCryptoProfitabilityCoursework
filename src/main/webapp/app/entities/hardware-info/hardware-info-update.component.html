@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-hardware-info-heading" jhiTranslate="courseworkApp.hardwareInfo.home.createOrEditLabel">Create or edit a Hardware Info</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="courseworkApp.hardwareInfo.hashPower" for="field_hashPower">Hash Power</label>
+                    <input type="number" class="form-control" name="hashPower" id="field_hashPower"
+                           formControlName="hashPower"/>
+                    <div *ngIf="editForm.get('hashPower')!.invalid && (editForm.get('hashPower')!.dirty || editForm.get('hashPower')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('hashPower')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('hashPower')?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('hashPower')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="courseworkApp.hardwareInfo.price" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                           formControlName="price"/>
+                    <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('price')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('price')?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('price')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="courseworkApp.hardwareInfo.videocard" for="field_videocard">Videocard</label>
+                    <select class="form-control" id="field_videocard" name="videocard" formControlName="videocard">
+                        <option *ngIf="!editForm.get('videocard')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="videocardOption.id === editForm.get('videocard')!.value?.id ? editForm.get('videocard')!.value : videocardOption" *ngFor="let videocardOption of videocards; trackBy: trackById">{{ videocardOption.id }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('videocard')!.invalid && (editForm.get('videocard')!.dirty || editForm.get('videocard')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('videocard')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

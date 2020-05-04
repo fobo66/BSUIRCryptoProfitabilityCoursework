@@ -1,26 +1,36 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import {CourseworkCryptocurrencyModule} from './cryptocurrency/cryptocurrency.module';
-import {CourseworkVideocardModule} from './videocard/videocard.module';
-import {CourseworkPowerCostModule} from './power-cost/power-cost.module';
-import {CourseworkHardwareInfoModule} from './hardware-info/hardware-info.module';
-import {CourseworkProfitabilityAnalysisModule} from './profitability-analysis/profitability-analysis.module';
-import {CourseworkMiningInfoModule} from './mining-info/mining-info.module';
-/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-    imports: [
-        CourseworkCryptocurrencyModule,
-        CourseworkVideocardModule,
-        CourseworkMiningInfoModule,
-        CourseworkPowerCostModule,
-        CourseworkHardwareInfoModule,
-        CourseworkProfitabilityAnalysisModule,
-        /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
-    ],
-    declarations: [],
-    entryComponents: [],
-    providers: [],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [
+    RouterModule.forChild([
+      {
+        path: 'cryptocurrency',
+        loadChildren: () => import('./cryptocurrency/cryptocurrency.module').then(m => m.CourseworkCryptocurrencyModule)
+      },
+      {
+        path: 'videocard',
+        loadChildren: () => import('./videocard/videocard.module').then(m => m.CourseworkVideocardModule)
+      },
+      {
+        path: 'mining-info',
+        loadChildren: () => import('./mining-info/mining-info.module').then(m => m.CourseworkMiningInfoModule)
+      },
+      {
+        path: 'power-cost',
+        loadChildren: () => import('./power-cost/power-cost.module').then(m => m.CourseworkPowerCostModule)
+      },
+      {
+        path: 'hardware-info',
+        loadChildren: () => import('./hardware-info/hardware-info.module').then(m => m.CourseworkHardwareInfoModule)
+      },
+      {
+        path: 'profitability-analysis',
+        loadChildren: () =>
+          import('./profitability-analysis/profitability-analysis.module').then(m => m.CourseworkProfitabilityAnalysisModule)
+      }
+      /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+    ])
+  ]
 })
 export class CourseworkEntityModule {}

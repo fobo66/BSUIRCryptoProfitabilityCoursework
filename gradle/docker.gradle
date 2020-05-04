@@ -1,32 +1,22 @@
-buildscript {
-    repositories {
-        jcenter()
+jib {
+    from {
+        image = "adoptopenjdk:11-jre-hotspot"
     }
-
-    dependencies {
-        classpath 'com.bmuschko:gradle-docker-plugin:3.1.0'
+    to {
+        image = "coursework:latest"
     }
-}
-
-apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
-
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-
-task copyDockerFiles(type: Copy) {
-    description = "Copy Dockerfile and required data to build directory"
-    from 'src/main/docker'
-    from "${project.buildDir}/libs"
-    into { "${project.buildDir}/docker" }
-    include "*"
-    exclude "**/*.yml"
-    filter {
-        it.replace('@project.build.finalName@', rootProject.name + '-' + version)
+    container {
+        entrypoint = ["bash", "-c", "/entrypoint.sh"]
+        ports = ["8080"]
+        environment = [
+            SPRING_OUTPUT_ANSI_ENABLED: "ALWAYS",
+            JHIPSTER_SLEEP: "0"
+        ]
+        creationTime = "USE_CURRENT_TIMESTAMP"
     }
-}
-
-task buildDocker(type: DockerBuildImage, dependsOn: 'copyDockerFiles') {
-    description = "Package application as Docker image"
-    inputDir = project.file("${project.buildDir}/docker")
-    tags = ["coursework:latest".toString(), "coursework:${project.version}".toString()]
+    extraDirectories {
+      paths = file("src/main/jib")
+      permissions = ["/entrypoint.sh": "755"]
+    }
 }
 

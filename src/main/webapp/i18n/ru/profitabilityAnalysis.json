@@ -1,24 +1,25 @@
 {
-    "courseworkApp": {
-        "profitabilityAnalysis": {
-            "home": {
-                "title": "История запросов",
-                "createLabel": "Создать новый объект истории",
-                "createOrEditLabel": "Создать или отредактировать объект истории",
-                "search": "Найти в истории"
-            },
-            "created": "Новый объект истории создан с идентификатором {{ param }}",
-            "updated": "Объект истории обновлен с идентификатором {{ param }}",
-            "deleted": "Объект истории удален с идентификатором {{ param }}",
-            "delete": {
-                "question": "Вы уверены что хотите удалить объект истории {{ id }}?"
-            },
-            "detail": {
-                "title": "История запросов"
-            },
-            "date": "Дата",
-            "result": "Результат",
-            "user": "Пользователь"
-        }
+  "courseworkApp": {
+    "profitabilityAnalysis": {
+      "home": {
+        "title": "Profitability Analyses",
+        "createLabel": "Создать новый Profitability Analysis",
+        "createOrEditLabel": "Создать или отредактировать Profitability Analysis",
+        "search": "Найти Profitability Analysis",
+        "notFound": "No Profitability Analyses found"
+      },
+      "created": "Новый Profitability Analysis создан с идентификатором {{ param }}",
+      "updated": "Profitability Analysis обновлен с идентификатором {{ param }}",
+      "deleted": "Profitability Analysis удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Profitability Analysis {{ id }}?"
+      },
+      "detail": {
+        "title": "Profitability Analysis"
+      },
+      "date": "Date",
+      "result": "Result",
+      "user": "User"
     }
+  }
 }

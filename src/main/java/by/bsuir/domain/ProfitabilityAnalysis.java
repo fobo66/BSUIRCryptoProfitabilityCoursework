@@ -1,22 +1,21 @@
 package by.bsuir.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * A ProfitabilityAnalysis.
  */
 @Entity
 @Table(name = "profitability_analysis")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "profitabilityanalysis")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "profitabilityanalysis")
 public class ProfitabilityAnalysis implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,7 +26,7 @@ public class ProfitabilityAnalysis implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "jhi_date", nullable = false)
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
     @NotNull
@@ -36,9 +35,10 @@ public class ProfitabilityAnalysis implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("profitabilityAnalyses")
     private User user;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -85,26 +85,22 @@ public class ProfitabilityAnalysis implements Serializable {
         this.user = user;
         return this;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ProfitabilityAnalysis)) {
             return false;
         }
-        ProfitabilityAnalysis profitabilityAnalysis = (ProfitabilityAnalysis) o;
-        if (profitabilityAnalysis.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), profitabilityAnalysis.getId());
+        return id != null && id.equals(((ProfitabilityAnalysis) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override

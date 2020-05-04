@@ -1,50 +1,17 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {CourseworkSharedModule} from '../../shared';
-import {
-    HardwareInfoService,
-    HardwareInfoPopupService,
-    HardwareInfoComponent,
-    HardwareInfoDetailComponent,
-    HardwareInfoDialogComponent,
-    HardwareInfoPopupComponent,
-    HardwareInfoDeletePopupComponent,
-    HardwareInfoDeleteDialogComponent,
-    hardwareInfoRoute,
-    hardwareInfoPopupRoute,
-} from './';
-
-const ENTITY_STATES = [
-    ...hardwareInfoRoute,
-    ...hardwareInfoPopupRoute,
-];
+import { CourseworkSharedModule } from 'app/shared/shared.module';
+import { HardwareInfoComponent } from './hardware-info.component';
+import { HardwareInfoDetailComponent } from './hardware-info-detail.component';
+import { HardwareInfoUpdateComponent } from './hardware-info-update.component';
+import { HardwareInfoDeleteDialogComponent } from './hardware-info-delete-dialog.component';
+import { hardwareInfoRoute } from './hardware-info.route';
 
 @NgModule({
-    imports: [
-        CourseworkSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, {useHash: true})
-    ],
-    declarations: [
-        HardwareInfoComponent,
-        HardwareInfoDetailComponent,
-        HardwareInfoDialogComponent,
-        HardwareInfoDeleteDialogComponent,
-        HardwareInfoPopupComponent,
-        HardwareInfoDeletePopupComponent,
-    ],
-    entryComponents: [
-        HardwareInfoComponent,
-        HardwareInfoDialogComponent,
-        HardwareInfoPopupComponent,
-        HardwareInfoDeleteDialogComponent,
-        HardwareInfoDeletePopupComponent,
-    ],
-    providers: [
-        HardwareInfoService,
-        HardwareInfoPopupService,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [CourseworkSharedModule, RouterModule.forChild(hardwareInfoRoute)],
+  declarations: [HardwareInfoComponent, HardwareInfoDetailComponent, HardwareInfoUpdateComponent, HardwareInfoDeleteDialogComponent],
+  entryComponents: [HardwareInfoDeleteDialogComponent]
 })
 export class CourseworkHardwareInfoModule {
 }

@@ -1,61 +1,30 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {NgbActiveModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
-
-import {HardwareInfo} from './hardware-info.model';
-import {HardwareInfoPopupService} from './hardware-info-popup.service';
-import {HardwareInfoService} from './hardware-info.service';
+import { IHardwareInfo } from 'app/shared/model/hardware-info.model';
+import { HardwareInfoService } from './hardware-info.service';
 
 @Component({
-    selector: 'jhi-hardware-info-delete-dialog',
-    templateUrl: './hardware-info-delete-dialog.component.html'
+  templateUrl: './hardware-info-delete-dialog.component.html'
 })
 export class HardwareInfoDeleteDialogComponent {
+  hardwareInfo?: IHardwareInfo;
 
-    hardwareInfo: HardwareInfo;
+  constructor(
+    protected hardwareInfoService: HardwareInfoService,
+    public activeModal: NgbActiveModal,
+    protected eventManager: JhiEventManager
+  ) {}
 
-    constructor(private hardwareInfoService: HardwareInfoService,
-                public activeModal: NgbActiveModal,
-                private eventManager: JhiEventManager) {
-    }
+  cancel(): void {
+    this.activeModal.dismiss();
+  }
 
-    clear() {
-        this.activeModal.dismiss('cancel');
-    }
-
-    confirmDelete(id: number) {
-        this.hardwareInfoService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'hardwareInfoListModification',
-                content: 'Deleted an hardwareInfo'
-            });
-            this.activeModal.dismiss(true);
-        });
-    }
-}
-
-@Component({
-    selector: 'jhi-hardware-info-delete-popup',
-    template: ''
-})
-export class HardwareInfoDeletePopupComponent implements OnInit, OnDestroy {
-
-    routeSub: any;
-
-    constructor(private route: ActivatedRoute,
-                private hardwareInfoPopupService: HardwareInfoPopupService) {
-    }
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            this.hardwareInfoPopupService
-                .open(HardwareInfoDeleteDialogComponent as Component, params['id']);
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
-    }
+  confirmDelete(id: number): void {
+    this.hardwareInfoService.delete(id).subscribe(() => {
+      this.eventManager.broadcast('hardwareInfoListModification');
+      this.activeModal.close();
+    });
+  }
 }

@@ -1,63 +1,44 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {SERVER_API_URL} from '../../app.constants';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import {PowerCost} from './power-cost.model';
-import {ResponseWrapper, createRequestOption} from '../../shared';
+import { SERVER_API_URL } from 'app/app.constants';
+import { createRequestOption, Search } from 'app/shared/util/request-util';
+import { IPowerCost } from 'app/shared/model/power-cost.model';
 
-@Injectable()
+type EntityResponseType = HttpResponse<IPowerCost>;
+type EntityArrayResponseType = HttpResponse<IPowerCost[]>;
+
+@Injectable({ providedIn: 'root' })
 export class PowerCostService {
+  public resourceUrl = SERVER_API_URL + 'api/power-costs';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/power-costs';
 
-    private resourceUrl = SERVER_API_URL + 'api/power-costs';
-    private resourceSearchUrl = SERVER_API_URL + 'api/_search/power-costs';
+  constructor(protected http: HttpClient) {}
 
-    constructor(private http: Http) {
-    }
+  create(powerCost: IPowerCost): Observable<EntityResponseType> {
+    return this.http.post<IPowerCost>(this.resourceUrl, powerCost, { observe: 'response' });
+  }
 
-    create(powerCost: PowerCost): Observable<PowerCost> {
-        const copy = this.convert(powerCost);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
-        });
-    }
+  update(powerCost: IPowerCost): Observable<EntityResponseType> {
+    return this.http.put<IPowerCost>(this.resourceUrl, powerCost, { observe: 'response' });
+  }
 
-    update(powerCost: PowerCost): Observable<PowerCost> {
-        const copy = this.convert(powerCost);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
-        });
-    }
+  find(id: number): Observable<EntityResponseType> {
+    return this.http.get<IPowerCost>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    find(id: number): Observable<PowerCost> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
-        });
-    }
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IPowerCost[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
 
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
-    }
-
-    search(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceSearchUrl, options)
-            .map((res: any) => this.convertResponse(res));
-    }
-
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
-
-    private convert(powerCost: PowerCost): PowerCost {
-        const copy: PowerCost = Object.assign({}, powerCost);
-        return copy;
-    }
+  search(req: Search): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IPowerCost[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
+  }
 }

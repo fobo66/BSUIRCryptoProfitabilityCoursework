@@ -1,75 +1,82 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
         <span jhiTranslate="courseworkApp.cryptocurrency.home.title">Cryptocurrencies</span>
-        <button class="btn btn-primary float-right jh-create-entity create-cryptocurrency"
-                [routerLink]="['/', { outlets: { popup: ['cryptocurrency-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down" jhiTranslate="courseworkApp.cryptocurrency.home.createLabel">
-            Create new Cryptocurrency
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-cryptocurrency" [routerLink]="['/cryptocurrency/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="courseworkApp.cryptocurrency.home.createLabel">
+            Create a new Cryptocurrency
             </span>
         </button>
     </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
     <jhi-alert></jhi-alert>
+
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                           name="currentSearch"
-                           placeholder="{{ 'courseworkApp.cryptocurrency.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'courseworkApp.cryptocurrency.home.search' | translate }}">
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
                     </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
                     </button>
                 </div>
             </form>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="cryptocurrencies">
-        <table class="table table-striped">
+
+    <div class="alert alert-warning" id="no-result" *ngIf="cryptocurrencies?.length === 0">
+        <span jhiTranslate="courseworkApp.cryptocurrency.home.notFound">No cryptocurrencies found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="cryptocurrencies?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr>
-                <th><span jhiTranslate="global.field.id">ID</span></th>
-                <th><span jhiTranslate="courseworkApp.cryptocurrency.name">Name</span></th>
-                <th><span jhiTranslate="courseworkApp.cryptocurrency.shortName">Short Name</span></th>
-                <th><span jhiTranslate="courseworkApp.cryptocurrency.price">Price</span></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.cryptocurrency.name">Name</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.cryptocurrency.shortName">Short Name</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.cryptocurrency.price">Price</span></th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let cryptocurrency of cryptocurrencies ;trackBy: trackId">
-                <td><a [routerLink]="['../cryptocurrency', cryptocurrency.id ]">{{cryptocurrency.id}}</a></td>
-                <td>{{cryptocurrency.name}}</td>
-                <td>{{cryptocurrency.shortName}}</td>
-                <td>{{cryptocurrency.price}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../cryptocurrency', cryptocurrency.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'cryptocurrency/'+ cryptocurrency.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'cryptocurrency/'+ cryptocurrency.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                <tr *ngFor="let cryptocurrency of cryptocurrencies ;trackBy: trackId">
+                    <td><a [routerLink]="['/cryptocurrency', cryptocurrency.id, 'view']">{{ cryptocurrency.id }}</a></td>
+                    <td>{{ cryptocurrency.name }}</td>
+                    <td>{{ cryptocurrency.shortName }}</td>
+                    <td>{{ cryptocurrency.price }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/cryptocurrency', cryptocurrency.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/cryptocurrency', cryptocurrency.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(cryptocurrency)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

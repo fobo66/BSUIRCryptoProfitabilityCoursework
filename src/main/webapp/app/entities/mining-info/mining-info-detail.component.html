@@ -1,35 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="miningInfo">
+            <h2><span jhiTranslate="courseworkApp.miningInfo.detail.title">Mining Info</span> {{ miningInfo.id }}</h2>
 
-<div *ngIf="miningInfo">
-    <h2><span jhiTranslate="courseworkApp.miningInfo.detail.title">Mining Info</span> {{miningInfo.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="courseworkApp.miningInfo.difficulty">Difficulty</span></dt>
-        <dd>
-            <span>{{miningInfo.difficulty}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.miningInfo.blockReward">Block Reward</span></dt>
-        <dd>
-            <span>{{miningInfo.blockReward}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.miningInfo.cryptocurrency">Cryptocurrency</span></dt>
-        <dd>
-            <div *ngIf="miningInfo.cryptocurrency">
-                <a [routerLink]="['/cryptocurrency', miningInfo.cryptocurrency?.id]">{{miningInfo.cryptocurrency?.id}}</a>
-            </div>
-        </dd>
-    </dl>
+            <hr>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
+            <jhi-alert-error></jhi-alert-error>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'mining-info/'+ miningInfo.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="courseworkApp.miningInfo.difficulty">Difficulty</span></dt>
+                <dd>
+                    <span>{{ miningInfo.difficulty }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.miningInfo.blockReward">Block Reward</span></dt>
+                <dd>
+                    <span>{{ miningInfo.blockReward }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.miningInfo.cryptocurrency">Cryptocurrency</span></dt>
+                <dd>
+                    <div *ngIf="miningInfo.cryptocurrency">
+                        <a [routerLink]="['/cryptocurrency', miningInfo.cryptocurrency?.id, 'view']">{{ miningInfo.cryptocurrency?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/mining-info', miningInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
 </div>

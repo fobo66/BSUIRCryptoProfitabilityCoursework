@@ -1,61 +1,30 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {NgbActiveModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
-
-import {Cryptocurrency} from './cryptocurrency.model';
-import {CryptocurrencyPopupService} from './cryptocurrency-popup.service';
-import {CryptocurrencyService} from './cryptocurrency.service';
+import { ICryptocurrency } from 'app/shared/model/cryptocurrency.model';
+import { CryptocurrencyService } from './cryptocurrency.service';
 
 @Component({
-    selector: 'jhi-cryptocurrency-delete-dialog',
-    templateUrl: './cryptocurrency-delete-dialog.component.html'
+  templateUrl: './cryptocurrency-delete-dialog.component.html'
 })
 export class CryptocurrencyDeleteDialogComponent {
+  cryptocurrency?: ICryptocurrency;
 
-    cryptocurrency: Cryptocurrency;
+  constructor(
+    protected cryptocurrencyService: CryptocurrencyService,
+    public activeModal: NgbActiveModal,
+    protected eventManager: JhiEventManager
+  ) {}
 
-    constructor(private cryptocurrencyService: CryptocurrencyService,
-                public activeModal: NgbActiveModal,
-                private eventManager: JhiEventManager) {
-    }
+  cancel(): void {
+    this.activeModal.dismiss();
+  }
 
-    clear() {
-        this.activeModal.dismiss('cancel');
-    }
-
-    confirmDelete(id: number) {
-        this.cryptocurrencyService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'cryptocurrencyListModification',
-                content: 'Deleted an cryptocurrency'
-            });
-            this.activeModal.dismiss(true);
-        });
-    }
-}
-
-@Component({
-    selector: 'jhi-cryptocurrency-delete-popup',
-    template: ''
-})
-export class CryptocurrencyDeletePopupComponent implements OnInit, OnDestroy {
-
-    routeSub: any;
-
-    constructor(private route: ActivatedRoute,
-                private cryptocurrencyPopupService: CryptocurrencyPopupService) {
-    }
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            this.cryptocurrencyPopupService
-                .open(CryptocurrencyDeleteDialogComponent as Component, params['id']);
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
-    }
+  confirmDelete(id: number): void {
+    this.cryptocurrencyService.delete(id).subscribe(() => {
+      this.eventManager.broadcast('cryptocurrencyListModification');
+      this.activeModal.close();
+    });
+  }
 }

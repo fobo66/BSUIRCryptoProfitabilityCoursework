@@ -1,24 +1,25 @@
 {
-    "courseworkApp": {
-        "hardwareInfo": {
-            "home": {
-                "title": "Сведения о железе",
-                "createLabel": "Создать новую информацию о железе",
-                "createOrEditLabel": "Создать или отредактировать информацию о железе",
-                "search": "Найти информацию о железе"
-            },
-            "created": "Новая информация о железе создана с идентификатором {{ param }}",
-            "updated": "Информация о железе обновлена с идентификатором {{ param }}",
-            "deleted": "Информация о железе удалена с идентификатором {{ param }}",
-            "delete": {
-                "question": "Вы уверены что хотите удалить информацию о железе {{ id }}?"
-            },
-            "detail": {
-                "title": "Информация о железе"
-            },
-            "hashPower": "Мощность хеширования",
-            "price": "Цена",
-            "videocard": "Видеокарта"
-        }
+  "courseworkApp": {
+    "hardwareInfo": {
+      "home": {
+        "title": "Hardware Infos",
+        "createLabel": "Создать новый Hardware Info",
+        "createOrEditLabel": "Создать или отредактировать Hardware Info",
+        "search": "Найти Hardware Info",
+        "notFound": "No Hardware Infos found"
+      },
+      "created": "Новый Hardware Info создан с идентификатором {{ param }}",
+      "updated": "Hardware Info обновлен с идентификатором {{ param }}",
+      "deleted": "Hardware Info удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Hardware Info {{ id }}?"
+      },
+      "detail": {
+        "title": "Hardware Info"
+      },
+      "hashPower": "Hash Power",
+      "price": "Price",
+      "videocard": "Videocard"
     }
+  }
 }

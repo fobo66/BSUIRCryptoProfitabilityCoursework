@@ -1,84 +1,75 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Rx';
-import {JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService} from 'ng-jhipster';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {PowerCost} from './power-cost.model';
-import {PowerCostService} from './power-cost.service';
-import {ITEMS_PER_PAGE, Principal, ResponseWrapper} from '../../shared';
-import {PaginationConfig} from '../../blocks/config/uib-pagination.config';
+import { IPowerCost } from 'app/shared/model/power-cost.model';
+import { PowerCostService } from './power-cost.service';
+import { PowerCostDeleteDialogComponent } from './power-cost-delete-dialog.component';
 
 @Component({
-    selector: 'jhi-power-cost',
-    templateUrl: './power-cost.component.html'
+  selector: 'jhi-power-cost',
+  templateUrl: './power-cost.component.html'
 })
 export class PowerCostComponent implements OnInit, OnDestroy {
-    powerCosts: PowerCost[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    currentSearch: string;
+  powerCosts?: IPowerCost[];
+  eventSubscriber?: Subscription;
+  currentSearch: string;
 
-    constructor(private powerCostService: PowerCostService,
-                private alertService: JhiAlertService,
-                private eventManager: JhiEventManager,
-                private activatedRoute: ActivatedRoute,
-                private principal: Principal) {
-        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
+  constructor(
+    protected powerCostService: PowerCostService,
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
+  }
+
+  loadAll(): void {
+    if (this.currentSearch) {
+      this.powerCostService
+        .search({
+          query: this.currentSearch
+        })
+        .subscribe((res: HttpResponse<IPowerCost[]>) => (this.powerCosts = res.body || []));
+      return;
     }
 
-    loadAll() {
-        if (this.currentSearch) {
-            this.powerCostService.search({
-                query: this.currentSearch,
-            }).subscribe(
-                (res: ResponseWrapper) => this.powerCosts = res.json,
-                (res: ResponseWrapper) => this.onError(res.json)
-            );
-            return;
-        }
-        this.powerCostService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.powerCosts = res.json;
-                this.currentSearch = '';
-            },
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
-    }
+    this.powerCostService.query().subscribe((res: HttpResponse<IPowerCost[]>) => (this.powerCosts = res.body || []));
+  }
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.currentSearch = query;
-        this.loadAll();
-    }
+  search(query: string): void {
+    this.currentSearch = query;
+    this.loadAll();
+  }
 
-    clear() {
-        this.currentSearch = '';
-        this.loadAll();
-    }
+  ngOnInit(): void {
+    this.loadAll();
+    this.registerChangeInPowerCosts();
+  }
 
-    ngOnInit() {
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInPowerCosts();
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
     }
+  }
 
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
+  trackId(index: number, item: IPowerCost): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
+  }
 
-    trackId(index: number, item: PowerCost) {
-        return item.id;
-    }
+  registerChangeInPowerCosts(): void {
+    this.eventSubscriber = this.eventManager.subscribe('powerCostListModification', () => this.loadAll());
+  }
 
-    registerChangeInPowerCosts() {
-        this.eventSubscriber = this.eventManager.subscribe('powerCostListModification', (response) => this.loadAll());
-    }
-
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
-    }
+  delete(powerCost: IPowerCost): void {
+    const modalRef = this.modalService.open(PowerCostDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.powerCost = powerCost;
+  }
 }

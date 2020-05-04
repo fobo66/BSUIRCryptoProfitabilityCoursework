@@ -7,18 +7,20 @@ import by.bsuir.service.dto.CryptocurrencyDTO;
 import by.bsuir.service.mapper.CryptocurrencyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
- * Service Implementation for managing Cryptocurrency.
+ * Service Implementation for managing {@link Cryptocurrency}.
  */
 @Service
 @Transactional
@@ -41,8 +43,8 @@ public class CryptocurrencyService {
     /**
      * Save a cryptocurrency.
      *
-     * @param cryptocurrencyDTO the entity to save
-     * @return the persisted entity
+     * @param cryptocurrencyDTO the entity to save.
+     * @return the persisted entity.
      */
     public CryptocurrencyDTO save(CryptocurrencyDTO cryptocurrencyDTO) {
         log.debug("Request to save Cryptocurrency : {}", cryptocurrencyDTO);
@@ -56,7 +58,7 @@ public class CryptocurrencyService {
     /**
      * Get all the cryptocurrencies.
      *
-     * @return the list of entities
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<CryptocurrencyDTO> findAll() {
@@ -69,32 +71,32 @@ public class CryptocurrencyService {
     /**
      * Get one cryptocurrency by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Transactional(readOnly = true)
-    public CryptocurrencyDTO findOne(Long id) {
+    public Optional<CryptocurrencyDTO> findOne(Long id) {
         log.debug("Request to get Cryptocurrency : {}", id);
-        Cryptocurrency cryptocurrency = cryptocurrencyRepository.findOne(id);
-        return cryptocurrencyMapper.toDto(cryptocurrency);
+        return cryptocurrencyRepository.findById(id)
+            .map(cryptocurrencyMapper::toDto);
     }
 
     /**
-     * Delete the  cryptocurrency by id.
+     * Delete the cryptocurrency by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     public void delete(Long id) {
         log.debug("Request to delete Cryptocurrency : {}", id);
-        cryptocurrencyRepository.delete(id);
-        cryptocurrencySearchRepository.delete(id);
+        cryptocurrencyRepository.deleteById(id);
+        cryptocurrencySearchRepository.deleteById(id);
     }
 
     /**
      * Search for the cryptocurrency corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     * @param query the query of the search.
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<CryptocurrencyDTO> search(String query) {

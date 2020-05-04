@@ -1,50 +1,22 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {CourseworkSharedModule} from '../../shared';
-import {
-    CryptocurrencyService,
-    CryptocurrencyPopupService,
-    CryptocurrencyComponent,
-    CryptocurrencyDetailComponent,
-    CryptocurrencyDialogComponent,
-    CryptocurrencyPopupComponent,
-    CryptocurrencyDeletePopupComponent,
-    CryptocurrencyDeleteDialogComponent,
-    cryptocurrencyRoute,
-    cryptocurrencyPopupRoute,
-} from './';
-
-const ENTITY_STATES = [
-    ...cryptocurrencyRoute,
-    ...cryptocurrencyPopupRoute,
-];
+import { CourseworkSharedModule } from 'app/shared/shared.module';
+import { CryptocurrencyComponent } from './cryptocurrency.component';
+import { CryptocurrencyDetailComponent } from './cryptocurrency-detail.component';
+import { CryptocurrencyUpdateComponent } from './cryptocurrency-update.component';
+import { CryptocurrencyDeleteDialogComponent } from './cryptocurrency-delete-dialog.component';
+import { cryptocurrencyRoute } from './cryptocurrency.route';
 
 @NgModule({
-    imports: [
-        CourseworkSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, {useHash: true})
-    ],
-    declarations: [
-        CryptocurrencyComponent,
-        CryptocurrencyDetailComponent,
-        CryptocurrencyDialogComponent,
-        CryptocurrencyDeleteDialogComponent,
-        CryptocurrencyPopupComponent,
-        CryptocurrencyDeletePopupComponent,
-    ],
-    entryComponents: [
-        CryptocurrencyComponent,
-        CryptocurrencyDialogComponent,
-        CryptocurrencyPopupComponent,
-        CryptocurrencyDeleteDialogComponent,
-        CryptocurrencyDeletePopupComponent,
-    ],
-    providers: [
-        CryptocurrencyService,
-        CryptocurrencyPopupService,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [CourseworkSharedModule, RouterModule.forChild(cryptocurrencyRoute)],
+  declarations: [
+    CryptocurrencyComponent,
+    CryptocurrencyDetailComponent,
+    CryptocurrencyUpdateComponent,
+    CryptocurrencyDeleteDialogComponent
+  ],
+  entryComponents: [CryptocurrencyDeleteDialogComponent]
 })
 export class CourseworkCryptocurrencyModule {
 }

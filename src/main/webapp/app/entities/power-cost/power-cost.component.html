@@ -1,72 +1,80 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
         <span jhiTranslate="courseworkApp.powerCost.home.title">Power Costs</span>
-        <button class="btn btn-primary float-right jh-create-entity create-power-cost"
-                [routerLink]="['/', { outlets: { popup: ['power-cost-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down" jhiTranslate="courseworkApp.powerCost.home.createLabel">
-            Create new Power Cost
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-power-cost" [routerLink]="['/power-cost/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="courseworkApp.powerCost.home.createLabel">
+            Create a new Power Cost
             </span>
         </button>
     </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
     <jhi-alert></jhi-alert>
+
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                           name="currentSearch" placeholder="{{ 'courseworkApp.powerCost.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'courseworkApp.powerCost.home.search' | translate }}">
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
                     </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
                     </button>
                 </div>
             </form>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="powerCosts">
-        <table class="table table-striped">
+
+    <div class="alert alert-warning" id="no-result" *ngIf="powerCosts?.length === 0">
+        <span jhiTranslate="courseworkApp.powerCost.home.notFound">No powerCosts found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="powerCosts?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr>
-                <th><span jhiTranslate="global.field.id">ID</span></th>
-                <th><span jhiTranslate="courseworkApp.powerCost.city">City</span></th>
-                <th><span jhiTranslate="courseworkApp.powerCost.pricePerKilowatt">Price Per Kilowatt</span></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.powerCost.city">City</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.powerCost.pricePerKilowatt">Price Per Kilowatt</span></th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let powerCost of powerCosts ;trackBy: trackId">
-                <td><a [routerLink]="['../power-cost', powerCost.id ]">{{powerCost.id}}</a></td>
-                <td>{{powerCost.city}}</td>
-                <td>{{powerCost.pricePerKilowatt}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../power-cost', powerCost.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'power-cost/'+ powerCost.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'power-cost/'+ powerCost.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                <tr *ngFor="let powerCost of powerCosts ;trackBy: trackId">
+                    <td><a [routerLink]="['/power-cost', powerCost.id, 'view']">{{ powerCost.id }}</a></td>
+                    <td>{{ powerCost.city }}</td>
+                    <td>{{ powerCost.pricePerKilowatt }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/power-cost', powerCost.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/power-cost', powerCost.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(powerCost)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

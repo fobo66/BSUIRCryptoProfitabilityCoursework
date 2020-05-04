@@ -1,63 +1,44 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {SERVER_API_URL} from '../../app.constants';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import {MiningInfo} from './mining-info.model';
-import {ResponseWrapper, createRequestOption} from '../../shared';
+import { SERVER_API_URL } from 'app/app.constants';
+import { createRequestOption, Search } from 'app/shared/util/request-util';
+import { IMiningInfo } from 'app/shared/model/mining-info.model';
 
-@Injectable()
+type EntityResponseType = HttpResponse<IMiningInfo>;
+type EntityArrayResponseType = HttpResponse<IMiningInfo[]>;
+
+@Injectable({ providedIn: 'root' })
 export class MiningInfoService {
+  public resourceUrl = SERVER_API_URL + 'api/mining-infos';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/mining-infos';
 
-    private resourceUrl = SERVER_API_URL + 'api/mining-infos';
-    private resourceSearchUrl = SERVER_API_URL + 'api/_search/mining-infos';
+  constructor(protected http: HttpClient) {}
 
-    constructor(private http: Http) {
-    }
+  create(miningInfo: IMiningInfo): Observable<EntityResponseType> {
+    return this.http.post<IMiningInfo>(this.resourceUrl, miningInfo, { observe: 'response' });
+  }
 
-    create(miningInfo: MiningInfo): Observable<MiningInfo> {
-        const copy = this.convert(miningInfo);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
-        });
-    }
+  update(miningInfo: IMiningInfo): Observable<EntityResponseType> {
+    return this.http.put<IMiningInfo>(this.resourceUrl, miningInfo, { observe: 'response' });
+  }
 
-    update(miningInfo: MiningInfo): Observable<MiningInfo> {
-        const copy = this.convert(miningInfo);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
-        });
-    }
+  find(id: number): Observable<EntityResponseType> {
+    return this.http.get<IMiningInfo>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    find(id: number): Observable<MiningInfo> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
-        });
-    }
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IMiningInfo[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
 
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
-    }
-
-    search(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceSearchUrl, options)
-            .map((res: any) => this.convertResponse(res));
-    }
-
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
-
-    private convert(miningInfo: MiningInfo): MiningInfo {
-        const copy: MiningInfo = Object.assign({}, miningInfo);
-        return copy;
-    }
+  search(req: Search): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IMiningInfo[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
+  }
 }

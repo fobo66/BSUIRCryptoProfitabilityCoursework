@@ -1,23 +1,24 @@
 {
-    "courseworkApp": {
-        "powerCost": {
-            "home": {
-                "title": "Расходы на электричество",
-                "createLabel": "Создать новую стоимость электричества",
-                "createOrEditLabel": "Создать или отредактировать стоимость электричества",
-                "search": "Найти стоимость электричества"
-            },
-            "created": "Новая стоимость электричества создана с идентификатором {{ param }}",
-            "updated": "стоимость электричества обновлена с идентификатором {{ param }}",
-            "deleted": "стоимость электричества удалена с идентификатором {{ param }}",
-            "delete": {
-                "question": "Вы уверены что хотите удалить стоимость электричества {{ id }}?"
-            },
-            "detail": {
-                "title": "Стоимость электричества"
-            },
-            "city": "Город",
-            "pricePerKilowatt": "Цена за киловатт, $"
-        }
+  "courseworkApp": {
+    "powerCost": {
+      "home": {
+        "title": "Power Costs",
+        "createLabel": "Создать новый Power Cost",
+        "createOrEditLabel": "Создать или отредактировать Power Cost",
+        "search": "Найти Power Cost",
+        "notFound": "No Power Costs found"
+      },
+      "created": "Новый Power Cost создан с идентификатором {{ param }}",
+      "updated": "Power Cost обновлен с идентификатором {{ param }}",
+      "deleted": "Power Cost удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Power Cost {{ id }}?"
+      },
+      "detail": {
+        "title": "Power Cost"
+      },
+      "city": "City",
+      "pricePerKilowatt": "Price Per Kilowatt"
     }
+  }
 }

@@ -1,52 +1,22 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs/Rx';
-import {JhiEventManager} from 'ng-jhipster';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import {PowerCost} from './power-cost.model';
-import {PowerCostService} from './power-cost.service';
+import { IPowerCost } from 'app/shared/model/power-cost.model';
 
 @Component({
-    selector: 'jhi-power-cost-detail',
-    templateUrl: './power-cost-detail.component.html'
+  selector: 'jhi-power-cost-detail',
+  templateUrl: './power-cost-detail.component.html'
 })
-export class PowerCostDetailComponent implements OnInit, OnDestroy {
+export class PowerCostDetailComponent implements OnInit {
+  powerCost: IPowerCost | null = null;
 
-    powerCost: PowerCost;
-    private subscription: Subscription;
-    private eventSubscriber: Subscription;
+  constructor(protected activatedRoute: ActivatedRoute) {}
 
-    constructor(private eventManager: JhiEventManager,
-                private powerCostService: PowerCostService,
-                private route: ActivatedRoute) {
-    }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({ powerCost }) => (this.powerCost = powerCost));
+  }
 
-    ngOnInit() {
-        this.subscription = this.route.params.subscribe((params) => {
-            this.load(params['id']);
-        });
-        this.registerChangeInPowerCosts();
-    }
-
-    load(id) {
-        this.powerCostService.find(id).subscribe((powerCost) => {
-            this.powerCost = powerCost;
-        });
-    }
-
-    previousState() {
-        window.history.back();
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    registerChangeInPowerCosts() {
-        this.eventSubscriber = this.eventManager.subscribe(
-            'powerCostListModification',
-            (response) => this.load(this.powerCost.id)
-        );
-    }
+  previousState(): void {
+    window.history.back();
+  }
 }

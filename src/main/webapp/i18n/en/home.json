@@ -1,30 +1,19 @@
 {
-    "home": {
-        "title": "Mining profitability calculations",
-        "subtitle": "See is it worth to mine cryptocurrency in your city with your hardware",
-        "logged": {
-            "message": "You are logged in as user \"{{username}}\"."
-        },
-        "question": "If you have any question on JHipster:",
-        "link": {
-            "homepage": "JHipster homepage",
-            "stackoverflow": "JHipster on Stack Overflow",
-            "bugtracker": "JHipster bug tracker",
-            "chat": "JHipster public chat room",
-            "follow": "follow @java_hipster on Twitter"
-        },
-        "like": "If you like JHipster, don't forget to give us a star on",
-        "github": "GitHub",
-        "form": {
-            "cryptoCurrencyNameFormLabel": "Cryptocurrency",
-            "videocardNameFormLabel": "Videocard",
-            "cityFormLabel": "City",
-            "submitButton": "Calculate",
-            "reset": "Reset"
-        },
-        "profitability": {
-            "profitable": "Congrats! You can mine cryptocurrencies on your hardware.",
-            "unprofitable": "Sorry, but your hardware isn't for mining."
-        }
-    }
+  "home": {
+    "title": "Welcome, Java Hipster!",
+    "subtitle": "This is your homepage",
+    "logged": {
+      "message": "You are logged in as user \"{{username}}\"."
+    },
+    "question": "If you have any question on JHipster:",
+    "link": {
+      "homepage": "JHipster homepage",
+      "stackoverflow": "JHipster on Stack Overflow",
+      "bugtracker": "JHipster bug tracker",
+      "chat": "JHipster public chat room",
+      "follow": "follow @jhipster on Twitter"
+    },
+    "like": "If you like JHipster, don't forget to give us a star on",
+    "github": "GitHub"
+  }
 }

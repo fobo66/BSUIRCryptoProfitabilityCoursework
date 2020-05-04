@@ -1,28 +1,34 @@
-<div *ngIf="powerCost">
-    <h2><span jhiTranslate="courseworkApp.powerCost.detail.title">Power Cost</span> {{powerCost.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="courseworkApp.powerCost.city">City</span></dt>
-        <dd>
-            <span>{{powerCost.city}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.powerCost.pricePerKilowatt">Price Per Kilowatt</span></dt>
-        <dd>
-            <span>{{powerCost.pricePerKilowatt}}</span>
-        </dd>
-    </dl>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="powerCost">
+            <h2><span jhiTranslate="courseworkApp.powerCost.detail.title">Power Cost</span> {{ powerCost.id }}</h2>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
+            <hr>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'power-cost/'+ powerCost.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="courseworkApp.powerCost.city">City</span></dt>
+                <dd>
+                    <span>{{ powerCost.city }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.powerCost.pricePerKilowatt">Price Per Kilowatt</span></dt>
+                <dd>
+                    <span>{{ powerCost.pricePerKilowatt }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/power-cost', powerCost.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
 </div>
