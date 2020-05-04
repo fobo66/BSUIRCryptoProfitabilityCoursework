@@ -34,6 +34,8 @@ public class HardwareInfoResource {
 
     private static final String ENTITY_NAME = "hardwareInfo";
 
+    private final Logger log = LoggerFactory.getLogger(HardwareInfoResource.class);
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 

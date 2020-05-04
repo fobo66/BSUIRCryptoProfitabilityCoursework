@@ -34,6 +34,8 @@ public class PowerCostResource {
 
     private static final String ENTITY_NAME = "powerCost";
 
+    private final Logger log = LoggerFactory.getLogger(PowerCostResource.class);
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 

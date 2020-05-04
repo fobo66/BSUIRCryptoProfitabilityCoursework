@@ -34,6 +34,8 @@ public class ProfitabilityAnalysisResource {
 
     private static final String ENTITY_NAME = "profitabilityAnalysis";
 
+    private final Logger log = LoggerFactory.getLogger(ProfitabilityAnalysisResource.class);
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
