@@ -1,0 +1,33 @@
+
+<div *ngIf="cryptocurrency">
+    <h2><span jhiTranslate="courseworkApp.cryptocurrency.detail.title">Cryptocurrency</span> {{cryptocurrency.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="courseworkApp.cryptocurrency.name">Name</span></dt>
+        <dd>
+            <span>{{cryptocurrency.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="courseworkApp.cryptocurrency.shortName">Short Name</span></dt>
+        <dd>
+            <span>{{cryptocurrency.shortName}}</span>
+        </dd>
+        <dt><span jhiTranslate="courseworkApp.cryptocurrency.price">Price</span></dt>
+        <dd>
+            <span>{{cryptocurrency.price}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'cryptocurrency/'+ cryptocurrency.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

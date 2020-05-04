@@ -1,0 +1,23 @@
+{
+    "courseworkApp": {
+        "videocard" : {
+            "home": {
+                "title": "Videocards",
+                "createLabel": "Создать новый Videocard",
+                "createOrEditLabel": "Создать или отредактировать Videocard",
+                "search": "Найти Videocard"
+            },
+            "created": "Новый Videocard создан с идентификатором {{ param }}",
+            "updated": "Videocard обновлен с идентификатором {{ param }}",
+            "deleted": "Videocard удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Videocard {{ id }}?"
+            },
+            "detail": {
+                "title": "Videocard"
+            },
+            "name": "Name",
+            "power": "Power"
+        }
+    }
+}

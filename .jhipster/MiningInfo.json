@@ -1,0 +1,42 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "cryptocurrency",
+            "otherEntityName": "cryptocurrency",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "miningInfo"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "difficulty",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "blockReward",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        }
+    ],
+    "changelogDate": "20171117174252",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "mining_info",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

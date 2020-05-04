@@ -1,0 +1,24 @@
+{
+    "courseworkApp": {
+        "cryptocurrency" : {
+            "home": {
+                "title": "Cryptocurrencies",
+                "createLabel": "Create a new Cryptocurrency",
+                "createOrEditLabel": "Create or edit a Cryptocurrency",
+                "search": "Search for Cryptocurrency"
+            },
+            "created": "A new Cryptocurrency is created with identifier {{ param }}",
+            "updated": "A Cryptocurrency is updated with identifier {{ param }}",
+            "deleted": "A Cryptocurrency is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Cryptocurrency {{ id }}?"
+            },
+            "detail": {
+                "title": "Cryptocurrency"
+            },
+            "name": "Name",
+            "shortName": "Short Name",
+            "price": "Price"
+        }
+    }
+}

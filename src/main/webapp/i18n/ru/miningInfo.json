@@ -1,0 +1,24 @@
+{
+    "courseworkApp": {
+        "miningInfo" : {
+            "home": {
+                "title": "Mining Infos",
+                "createLabel": "Создать новый Mining Info",
+                "createOrEditLabel": "Создать или отредактировать Mining Info",
+                "search": "Найти Mining Info"
+            },
+            "created": "Новый Mining Info создан с идентификатором {{ param }}",
+            "updated": "Mining Info обновлен с идентификатором {{ param }}",
+            "deleted": "Mining Info удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Mining Info {{ id }}?"
+            },
+            "detail": {
+                "title": "Mining Info"
+            },
+            "difficulty": "Difficulty",
+            "blockReward": "Block Reward",
+            "cryptocurrency": "Cryptocurrency"
+        }
+    }
+}

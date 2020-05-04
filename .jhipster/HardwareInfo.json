@@ -1,0 +1,42 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "videocard",
+            "otherEntityName": "videocard",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "hardwareInfo"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "hashPower",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        }
+    ],
+    "changelogDate": "20171117180551",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "hardware_info",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
