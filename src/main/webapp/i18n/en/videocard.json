@@ -1,23 +1,24 @@
 {
-    "courseworkApp": {
-        "videocard" : {
-            "home": {
-                "title": "Videocards",
-                "createLabel": "Create a new Videocard",
-                "createOrEditLabel": "Create or edit a Videocard",
-                "search": "Search for Videocard"
-            },
-            "created": "A new Videocard is created with identifier {{ param }}",
-            "updated": "A Videocard is updated with identifier {{ param }}",
-            "deleted": "A Videocard is deleted with identifier {{ param }}",
-            "delete": {
-                "question": "Are you sure you want to delete Videocard {{ id }}?"
-            },
-            "detail": {
-                "title": "Videocard"
-            },
-            "name": "Name",
-            "power": "Power"
-        }
+  "courseworkApp": {
+    "videocard": {
+      "home": {
+        "title": "Videocards",
+        "createLabel": "Create a new Videocard",
+        "createOrEditLabel": "Create or edit a Videocard",
+        "search": "Search for Videocard",
+        "notFound": "No Videocards found"
+      },
+      "created": "A new Videocard is created with identifier {{ param }}",
+      "updated": "A Videocard is updated with identifier {{ param }}",
+      "deleted": "A Videocard is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Videocard {{ id }}?"
+      },
+      "detail": {
+        "title": "Videocard"
+      },
+      "name": "Name",
+      "power": "Power"
     }
+  }
 }

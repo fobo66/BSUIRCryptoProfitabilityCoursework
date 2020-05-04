@@ -1,84 +1,75 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Videocard } from './videocard.model';
+import { IVideocard } from 'app/shared/model/videocard.model';
 import { VideocardService } from './videocard.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { VideocardDeleteDialogComponent } from './videocard-delete-dialog.component';
 
 @Component({
-    selector: 'jhi-videocard',
-    templateUrl: './videocard.component.html'
+  selector: 'jhi-videocard',
+  templateUrl: './videocard.component.html'
 })
 export class VideocardComponent implements OnInit, OnDestroy {
-videocards: Videocard[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    currentSearch: string;
+  videocards?: IVideocard[];
+  eventSubscriber?: Subscription;
+  currentSearch: string;
 
-    constructor(
-        private videocardService: VideocardService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private activatedRoute: ActivatedRoute,
-        private principal: Principal
-    ) {
-        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-    }
+  constructor(
+    protected videocardService: VideocardService,
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
+  }
 
-    loadAll() {
-        if (this.currentSearch) {
-            this.videocardService.search({
-                query: this.currentSearch,
-                }).subscribe(
-                    (res: ResponseWrapper) => this.videocards = res.json,
-                    (res: ResponseWrapper) => this.onError(res.json)
-                );
-            return;
-       }
-        this.videocardService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.videocards = res.json;
-                this.currentSearch = '';
-            },
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
+  loadAll(): void {
+    if (this.currentSearch) {
+      this.videocardService
+        .search({
+          query: this.currentSearch
+        })
+        .subscribe((res: HttpResponse<IVideocard[]>) => (this.videocards = res.body || []));
+      return;
     }
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.currentSearch = query;
-        this.loadAll();
-    }
+    this.videocardService.query().subscribe((res: HttpResponse<IVideocard[]>) => (this.videocards = res.body || []));
+  }
 
-    clear() {
-        this.currentSearch = '';
-        this.loadAll();
-    }
-    ngOnInit() {
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInVideocards();
-    }
+  search(query: string): void {
+    this.currentSearch = query;
+    this.loadAll();
+  }
 
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
+  ngOnInit(): void {
+    this.loadAll();
+    this.registerChangeInVideocards();
+  }
 
-    trackId(index: number, item: Videocard) {
-        return item.id;
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
     }
-    registerChangeInVideocards() {
-        this.eventSubscriber = this.eventManager.subscribe('videocardListModification', (response) => this.loadAll());
-    }
+  }
 
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
-    }
+  trackId(index: number, item: IVideocard): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
+  }
+
+  registerChangeInVideocards(): void {
+    this.eventSubscriber = this.eventManager.subscribe('videocardListModification', () => this.loadAll());
+  }
+
+  delete(videocard: IVideocard): void {
+    const modalRef = this.modalService.open(VideocardDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.videocard = videocard;
+  }
 }

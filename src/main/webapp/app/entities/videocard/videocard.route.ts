@@ -1,63 +1,83 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
-import { UserRouteAccessService } from '../../shared';
-import { JhiPaginationUtil } from 'ng-jhipster';
-
+import { Authority } from 'app/shared/constants/authority.constants';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
+import { IVideocard, Videocard } from 'app/shared/model/videocard.model';
+import { VideocardService } from './videocard.service';
 import { VideocardComponent } from './videocard.component';
 import { VideocardDetailComponent } from './videocard-detail.component';
-import { VideocardPopupComponent } from './videocard-dialog.component';
-import { VideocardDeletePopupComponent } from './videocard-delete-dialog.component';
+import { VideocardUpdateComponent } from './videocard-update.component';
+
+@Injectable({ providedIn: 'root' })
+export class VideocardResolve implements Resolve<IVideocard> {
+  constructor(private service: VideocardService, private router: Router) {}
+
+  resolve(route: ActivatedRouteSnapshot): Observable<IVideocard> | Observable<never> {
+    const id = route.params['id'];
+    if (id) {
+      return this.service.find(id).pipe(
+        flatMap((videocard: HttpResponse<Videocard>) => {
+          if (videocard.body) {
+            return of(videocard.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }
+    return of(new Videocard());
+  }
+}
 
 export const videocardRoute: Routes = [
-    {
-        path: 'videocard',
-        component: VideocardComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.videocard.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }, {
-        path: 'videocard/:id',
-        component: VideocardDetailComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.videocard.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }
-];
-
-export const videocardPopupRoute: Routes = [
-    {
-        path: 'videocard-new',
-        component: VideocardPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.videocard.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
+  {
+    path: '',
+    component: VideocardComponent,
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.videocard.home.title'
     },
-    {
-        path: 'videocard/:id/edit',
-        component: VideocardPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.videocard.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/view',
+    component: VideocardDetailComponent,
+    resolve: {
+      videocard: VideocardResolve
     },
-    {
-        path: 'videocard/:id/delete',
-        component: VideocardDeletePopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.videocard.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.videocard.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'new',
+    component: VideocardUpdateComponent,
+    resolve: {
+      videocard: VideocardResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.videocard.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/edit',
+    component: VideocardUpdateComponent,
+    resolve: {
+      videocard: VideocardResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.videocard.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  }
 ];

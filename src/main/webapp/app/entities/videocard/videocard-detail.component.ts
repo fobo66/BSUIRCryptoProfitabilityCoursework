@@ -1,53 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager } from 'ng-jhipster';
 
-import { Videocard } from './videocard.model';
-import { VideocardService } from './videocard.service';
+import { IVideocard } from 'app/shared/model/videocard.model';
 
 @Component({
-    selector: 'jhi-videocard-detail',
-    templateUrl: './videocard-detail.component.html'
+  selector: 'jhi-videocard-detail',
+  templateUrl: './videocard-detail.component.html'
 })
-export class VideocardDetailComponent implements OnInit, OnDestroy {
+export class VideocardDetailComponent implements OnInit {
+  videocard: IVideocard | null = null;
 
-    videocard: Videocard;
-    private subscription: Subscription;
-    private eventSubscriber: Subscription;
+  constructor(protected activatedRoute: ActivatedRoute) {}
 
-    constructor(
-        private eventManager: JhiEventManager,
-        private videocardService: VideocardService,
-        private route: ActivatedRoute
-    ) {
-    }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({ videocard }) => (this.videocard = videocard));
+  }
 
-    ngOnInit() {
-        this.subscription = this.route.params.subscribe((params) => {
-            this.load(params['id']);
-        });
-        this.registerChangeInVideocards();
-    }
-
-    load(id) {
-        this.videocardService.find(id).subscribe((videocard) => {
-            this.videocard = videocard;
-        });
-    }
-    previousState() {
-        window.history.back();
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    registerChangeInVideocards() {
-        this.eventSubscriber = this.eventManager.subscribe(
-            'videocardListModification',
-            (response) => this.load(this.videocard.id)
-        );
-    }
+  previousState(): void {
+    window.history.back();
+  }
 }

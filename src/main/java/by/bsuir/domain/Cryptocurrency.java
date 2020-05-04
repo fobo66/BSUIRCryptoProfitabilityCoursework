@@ -1,11 +1,10 @@
 package by.bsuir.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,8 +13,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "cryptocurrency")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "cryptocurrency")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "cryptocurrency")
 public class Cryptocurrency implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +36,7 @@ public class Cryptocurrency implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -85,26 +83,22 @@ public class Cryptocurrency implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Cryptocurrency)) {
             return false;
         }
-        Cryptocurrency cryptocurrency = (Cryptocurrency) o;
-        if (cryptocurrency.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), cryptocurrency.getId());
+        return id != null && id.equals(((Cryptocurrency) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override
@@ -113,7 +107,7 @@ public class Cryptocurrency implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
-            ", price='" + getPrice() + "'" +
+            ", price=" + getPrice() +
             "}";
     }
 }

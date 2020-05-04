@@ -1,24 +1,25 @@
 {
-    "courseworkApp": {
-        "miningInfo" : {
-            "home": {
-                "title": "Mining Infos",
-                "createLabel": "Create a new Mining Info",
-                "createOrEditLabel": "Create or edit a Mining Info",
-                "search": "Search for Mining Info"
-            },
-            "created": "A new Mining Info is created with identifier {{ param }}",
-            "updated": "A Mining Info is updated with identifier {{ param }}",
-            "deleted": "A Mining Info is deleted with identifier {{ param }}",
-            "delete": {
-                "question": "Are you sure you want to delete Mining Info {{ id }}?"
-            },
-            "detail": {
-                "title": "Mining Info"
-            },
-            "difficulty": "Difficulty",
-            "blockReward": "Block Reward",
-            "cryptocurrency": "Cryptocurrency"
-        }
+  "courseworkApp": {
+    "miningInfo": {
+      "home": {
+        "title": "Mining Infos",
+        "createLabel": "Create a new Mining Info",
+        "createOrEditLabel": "Create or edit a Mining Info",
+        "search": "Search for Mining Info",
+        "notFound": "No Mining Infos found"
+      },
+      "created": "A new Mining Info is created with identifier {{ param }}",
+      "updated": "A Mining Info is updated with identifier {{ param }}",
+      "deleted": "A Mining Info is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Mining Info {{ id }}?"
+      },
+      "detail": {
+        "title": "Mining Info"
+      },
+      "difficulty": "Difficulty",
+      "blockReward": "Block Reward",
+      "cryptocurrency": "Cryptocurrency"
     }
+  }
 }

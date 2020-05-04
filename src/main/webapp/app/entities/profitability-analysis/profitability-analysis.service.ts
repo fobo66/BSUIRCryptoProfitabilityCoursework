@@ -1,80 +1,82 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from '../../app.constants';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as moment from 'moment';
 
-import { JhiDateUtils } from 'ng-jhipster';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { SERVER_API_URL } from 'app/app.constants';
+import { createRequestOption, Search } from 'app/shared/util/request-util';
+import { IProfitabilityAnalysis } from 'app/shared/model/profitability-analysis.model';
 
-import { ProfitabilityAnalysis } from './profitability-analysis.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+type EntityResponseType = HttpResponse<IProfitabilityAnalysis>;
+type EntityArrayResponseType = HttpResponse<IProfitabilityAnalysis[]>;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProfitabilityAnalysisService {
+  public resourceUrl = SERVER_API_URL + 'api/profitability-analyses';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/profitability-analyses';
 
-    private resourceUrl = SERVER_API_URL + 'api/profitability-analyses';
-    private resourceSearchUrl = SERVER_API_URL + 'api/_search/profitability-analyses';
+  constructor(protected http: HttpClient) {}
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+  create(profitabilityAnalysis: IProfitabilityAnalysis): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(profitabilityAnalysis);
+    return this.http
+      .post<IProfitabilityAnalysis>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
 
-    create(profitabilityAnalysis: ProfitabilityAnalysis): Observable<ProfitabilityAnalysis> {
-        const copy = this.convert(profitabilityAnalysis);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
-        });
+  update(profitabilityAnalysis: IProfitabilityAnalysis): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(profitabilityAnalysis);
+    return this.http
+      .put<IProfitabilityAnalysis>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  find(id: number): Observable<EntityResponseType> {
+    return this.http
+      .get<IProfitabilityAnalysis>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IProfitabilityAnalysis[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  search(req: Search): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IProfitabilityAnalysis[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  protected convertDateFromClient(profitabilityAnalysis: IProfitabilityAnalysis): IProfitabilityAnalysis {
+    const copy: IProfitabilityAnalysis = Object.assign({}, profitabilityAnalysis, {
+      date: profitabilityAnalysis.date && profitabilityAnalysis.date.isValid() ? profitabilityAnalysis.date.format(DATE_FORMAT) : undefined
+    });
+    return copy;
+  }
+
+  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+    if (res.body) {
+      res.body.date = res.body.date ? moment(res.body.date) : undefined;
     }
+    return res;
+  }
 
-    update(profitabilityAnalysis: ProfitabilityAnalysis): Observable<ProfitabilityAnalysis> {
-        const copy = this.convert(profitabilityAnalysis);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
-        });
+  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+    if (res.body) {
+      res.body.forEach((profitabilityAnalysis: IProfitabilityAnalysis) => {
+        profitabilityAnalysis.date = profitabilityAnalysis.date ? moment(profitabilityAnalysis.date) : undefined;
+      });
     }
-
-    find(id: number): Observable<ProfitabilityAnalysis> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
-        });
-    }
-
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
-    }
-
-    search(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceSearchUrl, options)
-            .map((res: any) => this.convertResponse(res));
-    }
-
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        for (let i = 0; i < jsonResponse.length; i++) {
-            this.convertItemFromServer(jsonResponse[i]);
-        }
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
-
-    private convertItemFromServer(entity: any) {
-        entity.date = this.dateUtils
-            .convertLocalDateFromServer(entity.date);
-    }
-
-    private convert(profitabilityAnalysis: ProfitabilityAnalysis): ProfitabilityAnalysis {
-        const copy: ProfitabilityAnalysis = Object.assign({}, profitabilityAnalysis);
-        copy.date = this.dateUtils
-            .convertLocalDateToServer(profitabilityAnalysis.date);
-        return copy;
-    }
+    return res;
+  }
 }

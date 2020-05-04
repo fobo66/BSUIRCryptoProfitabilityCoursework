@@ -1,84 +1,75 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Cryptocurrency } from './cryptocurrency.model';
+import { ICryptocurrency } from 'app/shared/model/cryptocurrency.model';
 import { CryptocurrencyService } from './cryptocurrency.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { CryptocurrencyDeleteDialogComponent } from './cryptocurrency-delete-dialog.component';
 
 @Component({
-    selector: 'jhi-cryptocurrency',
-    templateUrl: './cryptocurrency.component.html'
+  selector: 'jhi-cryptocurrency',
+  templateUrl: './cryptocurrency.component.html'
 })
 export class CryptocurrencyComponent implements OnInit, OnDestroy {
-cryptocurrencies: Cryptocurrency[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    currentSearch: string;
+  cryptocurrencies?: ICryptocurrency[];
+  eventSubscriber?: Subscription;
+  currentSearch: string;
 
-    constructor(
-        private cryptocurrencyService: CryptocurrencyService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private activatedRoute: ActivatedRoute,
-        private principal: Principal
-    ) {
-        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-    }
+  constructor(
+    protected cryptocurrencyService: CryptocurrencyService,
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
+  }
 
-    loadAll() {
-        if (this.currentSearch) {
-            this.cryptocurrencyService.search({
-                query: this.currentSearch,
-                }).subscribe(
-                    (res: ResponseWrapper) => this.cryptocurrencies = res.json,
-                    (res: ResponseWrapper) => this.onError(res.json)
-                );
-            return;
-       }
-        this.cryptocurrencyService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.cryptocurrencies = res.json;
-                this.currentSearch = '';
-            },
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
+  loadAll(): void {
+    if (this.currentSearch) {
+      this.cryptocurrencyService
+        .search({
+          query: this.currentSearch
+        })
+        .subscribe((res: HttpResponse<ICryptocurrency[]>) => (this.cryptocurrencies = res.body || []));
+      return;
     }
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.currentSearch = query;
-        this.loadAll();
-    }
+    this.cryptocurrencyService.query().subscribe((res: HttpResponse<ICryptocurrency[]>) => (this.cryptocurrencies = res.body || []));
+  }
 
-    clear() {
-        this.currentSearch = '';
-        this.loadAll();
-    }
-    ngOnInit() {
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInCryptocurrencies();
-    }
+  search(query: string): void {
+    this.currentSearch = query;
+    this.loadAll();
+  }
 
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
+  ngOnInit(): void {
+    this.loadAll();
+    this.registerChangeInCryptocurrencies();
+  }
 
-    trackId(index: number, item: Cryptocurrency) {
-        return item.id;
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
     }
-    registerChangeInCryptocurrencies() {
-        this.eventSubscriber = this.eventManager.subscribe('cryptocurrencyListModification', (response) => this.loadAll());
-    }
+  }
 
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
-    }
+  trackId(index: number, item: ICryptocurrency): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
+  }
+
+  registerChangeInCryptocurrencies(): void {
+    this.eventSubscriber = this.eventManager.subscribe('cryptocurrencyListModification', () => this.loadAll());
+  }
+
+  delete(cryptocurrency: ICryptocurrency): void {
+    const modalRef = this.modalService.open(CryptocurrencyDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.cryptocurrency = cryptocurrency;
+  }
 }

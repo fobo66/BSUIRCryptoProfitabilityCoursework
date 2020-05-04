@@ -1,63 +1,83 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
-import { UserRouteAccessService } from '../../shared';
-import { JhiPaginationUtil } from 'ng-jhipster';
-
+import { Authority } from 'app/shared/constants/authority.constants';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
+import { ICryptocurrency, Cryptocurrency } from 'app/shared/model/cryptocurrency.model';
+import { CryptocurrencyService } from './cryptocurrency.service';
 import { CryptocurrencyComponent } from './cryptocurrency.component';
 import { CryptocurrencyDetailComponent } from './cryptocurrency-detail.component';
-import { CryptocurrencyPopupComponent } from './cryptocurrency-dialog.component';
-import { CryptocurrencyDeletePopupComponent } from './cryptocurrency-delete-dialog.component';
+import { CryptocurrencyUpdateComponent } from './cryptocurrency-update.component';
+
+@Injectable({ providedIn: 'root' })
+export class CryptocurrencyResolve implements Resolve<ICryptocurrency> {
+  constructor(private service: CryptocurrencyService, private router: Router) {}
+
+  resolve(route: ActivatedRouteSnapshot): Observable<ICryptocurrency> | Observable<never> {
+    const id = route.params['id'];
+    if (id) {
+      return this.service.find(id).pipe(
+        flatMap((cryptocurrency: HttpResponse<Cryptocurrency>) => {
+          if (cryptocurrency.body) {
+            return of(cryptocurrency.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }
+    return of(new Cryptocurrency());
+  }
+}
 
 export const cryptocurrencyRoute: Routes = [
-    {
-        path: 'cryptocurrency',
-        component: CryptocurrencyComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.cryptocurrency.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }, {
-        path: 'cryptocurrency/:id',
-        component: CryptocurrencyDetailComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.cryptocurrency.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }
-];
-
-export const cryptocurrencyPopupRoute: Routes = [
-    {
-        path: 'cryptocurrency-new',
-        component: CryptocurrencyPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.cryptocurrency.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
+  {
+    path: '',
+    component: CryptocurrencyComponent,
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.cryptocurrency.home.title'
     },
-    {
-        path: 'cryptocurrency/:id/edit',
-        component: CryptocurrencyPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.cryptocurrency.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/view',
+    component: CryptocurrencyDetailComponent,
+    resolve: {
+      cryptocurrency: CryptocurrencyResolve
     },
-    {
-        path: 'cryptocurrency/:id/delete',
-        component: CryptocurrencyDeletePopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'courseworkApp.cryptocurrency.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.cryptocurrency.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'new',
+    component: CryptocurrencyUpdateComponent,
+    resolve: {
+      cryptocurrency: CryptocurrencyResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.cryptocurrency.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/edit',
+    component: CryptocurrencyUpdateComponent,
+    resolve: {
+      cryptocurrency: CryptocurrencyResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'courseworkApp.cryptocurrency.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  }
 ];

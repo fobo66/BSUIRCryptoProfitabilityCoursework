@@ -1,23 +1,24 @@
 {
-    "courseworkApp": {
-        "powerCost" : {
-            "home": {
-                "title": "Power Costs",
-                "createLabel": "Create a new Power Cost",
-                "createOrEditLabel": "Create or edit a Power Cost",
-                "search": "Search for Power Cost"
-            },
-            "created": "A new Power Cost is created with identifier {{ param }}",
-            "updated": "A Power Cost is updated with identifier {{ param }}",
-            "deleted": "A Power Cost is deleted with identifier {{ param }}",
-            "delete": {
-                "question": "Are you sure you want to delete Power Cost {{ id }}?"
-            },
-            "detail": {
-                "title": "Power Cost"
-            },
-            "city": "City",
-            "pricePerKilowatt": "Price Per Kilowatt"
-        }
+  "courseworkApp": {
+    "powerCost": {
+      "home": {
+        "title": "Power Costs",
+        "createLabel": "Create a new Power Cost",
+        "createOrEditLabel": "Create or edit a Power Cost",
+        "search": "Search for Power Cost",
+        "notFound": "No Power Costs found"
+      },
+      "created": "A new Power Cost is created with identifier {{ param }}",
+      "updated": "A Power Cost is updated with identifier {{ param }}",
+      "deleted": "A Power Cost is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Power Cost {{ id }}?"
+      },
+      "detail": {
+        "title": "Power Cost"
+      },
+      "city": "City",
+      "pricePerKilowatt": "Price Per Kilowatt"
     }
+  }
 }

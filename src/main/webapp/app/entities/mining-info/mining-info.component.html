@@ -1,76 +1,86 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
         <span jhiTranslate="courseworkApp.miningInfo.home.title">Mining Infos</span>
-        <button class="btn btn-primary float-right jh-create-entity create-mining-info" [routerLink]="['/', { outlets: { popup: ['mining-info-new'] } }]">
-            <span class="fa fa-plus"></span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-mining-info" [routerLink]="['/mining-info/new']">
+            <fa-icon icon="plus"></fa-icon>
             <span class="hidden-sm-down"  jhiTranslate="courseworkApp.miningInfo.home.createLabel">
-            Create new Mining Info
+            Create a new Mining Info
             </span>
         </button>
     </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
     <jhi-alert></jhi-alert>
+
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
                     <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'courseworkApp.miningInfo.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
                     </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
                     </button>
                 </div>
             </form>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="miningInfos">
-        <table class="table table-striped">
+
+    <div class="alert alert-warning" id="no-result" *ngIf="miningInfos?.length === 0">
+        <span jhiTranslate="courseworkApp.miningInfo.home.notFound">No miningInfos found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="miningInfos?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="courseworkApp.miningInfo.difficulty">Difficulty</span></th>
-            <th><span jhiTranslate="courseworkApp.miningInfo.blockReward">Block Reward</span></th>
-            <th><span jhiTranslate="courseworkApp.miningInfo.cryptocurrency">Cryptocurrency</span></th>
-            <th></th>
-            </tr>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.miningInfo.difficulty">Difficulty</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.miningInfo.blockReward">Block Reward</span></th>
+                    <th scope="col" ><span jhiTranslate="courseworkApp.miningInfo.cryptocurrency">Cryptocurrency</span></th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let miningInfo of miningInfos ;trackBy: trackId">
-                <td><a [routerLink]="['../mining-info', miningInfo.id ]">{{miningInfo.id}}</a></td>
-                <td>{{miningInfo.difficulty}}</td>
-                <td>{{miningInfo.blockReward}}</td>
-                <td>
-                    <div *ngIf="miningInfo.cryptocurrency">
-                        <a [routerLink]="['../cryptocurrency', miningInfo.cryptocurrency?.id ]" >{{miningInfo.cryptocurrency?.id}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../mining-info', miningInfo.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'mining-info/'+ miningInfo.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'mining-info/'+ miningInfo.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                <tr *ngFor="let miningInfo of miningInfos ;trackBy: trackId">
+                    <td><a [routerLink]="['/mining-info', miningInfo.id, 'view']">{{ miningInfo.id }}</a></td>
+                    <td>{{ miningInfo.difficulty }}</td>
+                    <td>{{ miningInfo.blockReward }}</td>
+                    <td>
+                        <div *ngIf="miningInfo.cryptocurrency">
+                            <a [routerLink]="['/cryptocurrency', miningInfo.cryptocurrency?.id, 'view']" >{{ miningInfo.cryptocurrency?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/mining-info', miningInfo.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/mining-info', miningInfo.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(miningInfo)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

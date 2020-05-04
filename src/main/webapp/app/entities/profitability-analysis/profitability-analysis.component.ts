@@ -1,84 +1,77 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProfitabilityAnalysis } from './profitability-analysis.model';
+import { IProfitabilityAnalysis } from 'app/shared/model/profitability-analysis.model';
 import { ProfitabilityAnalysisService } from './profitability-analysis.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { ProfitabilityAnalysisDeleteDialogComponent } from './profitability-analysis-delete-dialog.component';
 
 @Component({
-    selector: 'jhi-profitability-analysis',
-    templateUrl: './profitability-analysis.component.html'
+  selector: 'jhi-profitability-analysis',
+  templateUrl: './profitability-analysis.component.html'
 })
 export class ProfitabilityAnalysisComponent implements OnInit, OnDestroy {
-profitabilityAnalyses: ProfitabilityAnalysis[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    currentSearch: string;
+  profitabilityAnalyses?: IProfitabilityAnalysis[];
+  eventSubscriber?: Subscription;
+  currentSearch: string;
 
-    constructor(
-        private profitabilityAnalysisService: ProfitabilityAnalysisService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private activatedRoute: ActivatedRoute,
-        private principal: Principal
-    ) {
-        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-    }
+  constructor(
+    protected profitabilityAnalysisService: ProfitabilityAnalysisService,
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
+  }
 
-    loadAll() {
-        if (this.currentSearch) {
-            this.profitabilityAnalysisService.search({
-                query: this.currentSearch,
-                }).subscribe(
-                    (res: ResponseWrapper) => this.profitabilityAnalyses = res.json,
-                    (res: ResponseWrapper) => this.onError(res.json)
-                );
-            return;
-       }
-        this.profitabilityAnalysisService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.profitabilityAnalyses = res.json;
-                this.currentSearch = '';
-            },
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
+  loadAll(): void {
+    if (this.currentSearch) {
+      this.profitabilityAnalysisService
+        .search({
+          query: this.currentSearch
+        })
+        .subscribe((res: HttpResponse<IProfitabilityAnalysis[]>) => (this.profitabilityAnalyses = res.body || []));
+      return;
     }
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.currentSearch = query;
-        this.loadAll();
-    }
+    this.profitabilityAnalysisService
+      .query()
+      .subscribe((res: HttpResponse<IProfitabilityAnalysis[]>) => (this.profitabilityAnalyses = res.body || []));
+  }
 
-    clear() {
-        this.currentSearch = '';
-        this.loadAll();
-    }
-    ngOnInit() {
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInProfitabilityAnalyses();
-    }
+  search(query: string): void {
+    this.currentSearch = query;
+    this.loadAll();
+  }
 
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
+  ngOnInit(): void {
+    this.loadAll();
+    this.registerChangeInProfitabilityAnalyses();
+  }
 
-    trackId(index: number, item: ProfitabilityAnalysis) {
-        return item.id;
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
     }
-    registerChangeInProfitabilityAnalyses() {
-        this.eventSubscriber = this.eventManager.subscribe('profitabilityAnalysisListModification', (response) => this.loadAll());
-    }
+  }
 
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
-    }
+  trackId(index: number, item: IProfitabilityAnalysis): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
+  }
+
+  registerChangeInProfitabilityAnalyses(): void {
+    this.eventSubscriber = this.eventManager.subscribe('profitabilityAnalysisListModification', () => this.loadAll());
+  }
+
+  delete(profitabilityAnalysis: IProfitabilityAnalysis): void {
+    const modalRef = this.modalService.open(ProfitabilityAnalysisDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.profitabilityAnalysis = profitabilityAnalysis;
+  }
 }

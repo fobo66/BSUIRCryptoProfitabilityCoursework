@@ -1,11 +1,10 @@
 package by.bsuir.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,8 +13,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "hardware_info")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "hardwareinfo")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "hardwareinfo")
 public class HardwareInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +38,7 @@ public class HardwareInfo implements Serializable {
     @JoinColumn(unique = true)
     private Videocard videocard;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -87,34 +85,30 @@ public class HardwareInfo implements Serializable {
     public void setVideocard(Videocard videocard) {
         this.videocard = videocard;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof HardwareInfo)) {
             return false;
         }
-        HardwareInfo hardwareInfo = (HardwareInfo) o;
-        if (hardwareInfo.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), hardwareInfo.getId());
+        return id != null && id.equals(((HardwareInfo) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override
     public String toString() {
         return "HardwareInfo{" +
             "id=" + getId() +
-            ", hashPower='" + getHashPower() + "'" +
-            ", price='" + getPrice() + "'" +
+            ", hashPower=" + getHashPower() +
+            ", price=" + getPrice() +
             "}";
     }
 }

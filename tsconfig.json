@@ -1,26 +1,28 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": false,
-        "skipLibCheck": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "outDir": "build/www/app",
-        "lib": ["es6", "dom"],
-        "typeRoots": [
-            "node_modules/@types"
-        ]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true,
+    "outDir": "build/resources/main/static/app",
+    "lib": ["es7", "dom"],
+    "baseUrl": "./",
+    "paths": {
+      "app/*": ["src/main/webapp/app/*"]
     },
-    "include": [
-        "src/main/webapp/app",
-        "src/test/javascript/"
-    ],
-    "exclude": [
-        "src/main/webapp/app/app.main-aot.ts"
-    ]
+    "importHelpers": true
+  },
+  "angularCompilerOptions": {
+    "genDir": "build/resources/main/aot",
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": true
+  }
 }

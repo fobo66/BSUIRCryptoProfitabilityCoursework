@@ -1,33 +1,38 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="profitabilityAnalysis">
+            <h2><span jhiTranslate="courseworkApp.profitabilityAnalysis.detail.title">Profitability Analysis</span> {{ profitabilityAnalysis.id }}</h2>
 
-<div *ngIf="profitabilityAnalysis">
-    <h2><span jhiTranslate="courseworkApp.profitabilityAnalysis.detail.title">Profitability Analysis</span> {{profitabilityAnalysis.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="courseworkApp.profitabilityAnalysis.date">Date</span></dt>
-        <dd>
-            <span>{{profitabilityAnalysis.date | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.profitabilityAnalysis.result">Result</span></dt>
-        <dd>
-            <span>{{profitabilityAnalysis.result}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.profitabilityAnalysis.user">User</span></dt>
-        <dd>
-            {{profitabilityAnalysis.user?.login}}
-        </dd>
-    </dl>
+            <hr>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
+            <jhi-alert-error></jhi-alert-error>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'profitability-analysis/'+ profitabilityAnalysis.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="courseworkApp.profitabilityAnalysis.date">Date</span></dt>
+                <dd>
+                    <span>{{ profitabilityAnalysis.date }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.profitabilityAnalysis.result">Result</span></dt>
+                <dd>
+                    <span>{{ profitabilityAnalysis.result }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.profitabilityAnalysis.user">User</span></dt>
+                <dd>
+                    {{ profitabilityAnalysis.user?.login }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/profitability-analysis', profitabilityAnalysis.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
 </div>

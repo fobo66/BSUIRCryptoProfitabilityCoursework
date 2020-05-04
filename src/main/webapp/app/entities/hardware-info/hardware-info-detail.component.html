@@ -1,35 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="hardwareInfo">
+            <h2><span jhiTranslate="courseworkApp.hardwareInfo.detail.title">Hardware Info</span> {{ hardwareInfo.id }}</h2>
 
-<div *ngIf="hardwareInfo">
-    <h2><span jhiTranslate="courseworkApp.hardwareInfo.detail.title">Hardware Info</span> {{hardwareInfo.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="courseworkApp.hardwareInfo.hashPower">Hash Power</span></dt>
-        <dd>
-            <span>{{hardwareInfo.hashPower}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.hardwareInfo.price">Price</span></dt>
-        <dd>
-            <span>{{hardwareInfo.price}}</span>
-        </dd>
-        <dt><span jhiTranslate="courseworkApp.hardwareInfo.videocard">Videocard</span></dt>
-        <dd>
-            <div *ngIf="hardwareInfo.videocard">
-                <a [routerLink]="['/videocard', hardwareInfo.videocard?.id]">{{hardwareInfo.videocard?.id}}</a>
-            </div>
-        </dd>
-    </dl>
+            <hr>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
+            <jhi-alert-error></jhi-alert-error>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'hardware-info/'+ hardwareInfo.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="courseworkApp.hardwareInfo.hashPower">Hash Power</span></dt>
+                <dd>
+                    <span>{{ hardwareInfo.hashPower }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.hardwareInfo.price">Price</span></dt>
+                <dd>
+                    <span>{{ hardwareInfo.price }}</span>
+                </dd>
+                <dt><span jhiTranslate="courseworkApp.hardwareInfo.videocard">Videocard</span></dt>
+                <dd>
+                    <div *ngIf="hardwareInfo.videocard">
+                        <a [routerLink]="['/videocard', hardwareInfo.videocard?.id, 'view']">{{ hardwareInfo.videocard?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/hardware-info', hardwareInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
 </div>

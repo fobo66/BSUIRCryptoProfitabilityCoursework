@@ -1,15 +1,14 @@
 package by.bsuir.service.dto;
 
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Cryptocurrency entity.
+ * A DTO for the {@link by.bsuir.domain.Cryptocurrency} entity.
  */
 public class CryptocurrencyDTO implements Serializable {
-
+    
     private Long id;
 
     @NotNull
@@ -22,6 +21,7 @@ public class CryptocurrencyDTO implements Serializable {
     @DecimalMin(value = "0")
     private Double price;
 
+    
     public Long getId() {
         return id;
     }
@@ -64,7 +64,7 @@ public class CryptocurrencyDTO implements Serializable {
         }
 
         CryptocurrencyDTO cryptocurrencyDTO = (CryptocurrencyDTO) o;
-        if(cryptocurrencyDTO.getId() == null || getId() == null) {
+        if (cryptocurrencyDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), cryptocurrencyDTO.getId());
@@ -81,7 +81,7 @@ public class CryptocurrencyDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
-            ", price='" + getPrice() + "'" +
+            ", price=" + getPrice() +
             "}";
     }
 }

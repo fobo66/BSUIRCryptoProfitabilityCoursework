@@ -1,62 +1,44 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from '../../app.constants';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { Cryptocurrency } from './cryptocurrency.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { SERVER_API_URL } from 'app/app.constants';
+import { createRequestOption, Search } from 'app/shared/util/request-util';
+import { ICryptocurrency } from 'app/shared/model/cryptocurrency.model';
 
-@Injectable()
+type EntityResponseType = HttpResponse<ICryptocurrency>;
+type EntityArrayResponseType = HttpResponse<ICryptocurrency[]>;
+
+@Injectable({ providedIn: 'root' })
 export class CryptocurrencyService {
+  public resourceUrl = SERVER_API_URL + 'api/cryptocurrencies';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/cryptocurrencies';
 
-    private resourceUrl = SERVER_API_URL + 'api/cryptocurrencies';
-    private resourceSearchUrl = SERVER_API_URL + 'api/_search/cryptocurrencies';
+  constructor(protected http: HttpClient) {}
 
-    constructor(private http: Http) { }
+  create(cryptocurrency: ICryptocurrency): Observable<EntityResponseType> {
+    return this.http.post<ICryptocurrency>(this.resourceUrl, cryptocurrency, { observe: 'response' });
+  }
 
-    create(cryptocurrency: Cryptocurrency): Observable<Cryptocurrency> {
-        const copy = this.convert(cryptocurrency);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
-        });
-    }
+  update(cryptocurrency: ICryptocurrency): Observable<EntityResponseType> {
+    return this.http.put<ICryptocurrency>(this.resourceUrl, cryptocurrency, { observe: 'response' });
+  }
 
-    update(cryptocurrency: Cryptocurrency): Observable<Cryptocurrency> {
-        const copy = this.convert(cryptocurrency);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
-        });
-    }
+  find(id: number): Observable<EntityResponseType> {
+    return this.http.get<ICryptocurrency>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    find(id: number): Observable<Cryptocurrency> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
-        });
-    }
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<ICryptocurrency[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
 
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
-    }
-
-    search(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceSearchUrl, options)
-            .map((res: any) => this.convertResponse(res));
-    }
-
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
-
-    private convert(cryptocurrency: Cryptocurrency): Cryptocurrency {
-        const copy: Cryptocurrency = Object.assign({}, cryptocurrency);
-        return copy;
-    }
+  search(req: Search): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<ICryptocurrency[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
+  }
 }

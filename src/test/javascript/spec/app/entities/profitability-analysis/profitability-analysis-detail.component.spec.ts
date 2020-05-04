@@ -1,62 +1,37 @@
-/* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
+import { of } from 'rxjs';
+
 import { CourseworkTestModule } from '../../../test.module';
-import { MockActivatedRoute } from '../../../helpers/mock-route.service';
-import { ProfitabilityAnalysisDetailComponent } from '../../../../../../main/webapp/app/entities/profitability-analysis/profitability-analysis-detail.component';
-import { ProfitabilityAnalysisService } from '../../../../../../main/webapp/app/entities/profitability-analysis/profitability-analysis.service';
-import { ProfitabilityAnalysis } from '../../../../../../main/webapp/app/entities/profitability-analysis/profitability-analysis.model';
+import { ProfitabilityAnalysisDetailComponent } from 'app/entities/profitability-analysis/profitability-analysis-detail.component';
+import { ProfitabilityAnalysis } from 'app/shared/model/profitability-analysis.model';
 
 describe('Component Tests', () => {
+  describe('ProfitabilityAnalysis Management Detail Component', () => {
+    let comp: ProfitabilityAnalysisDetailComponent;
+    let fixture: ComponentFixture<ProfitabilityAnalysisDetailComponent>;
+    const route = ({ data: of({ profitabilityAnalysis: new ProfitabilityAnalysis(123) }) } as any) as ActivatedRoute;
 
-    describe('ProfitabilityAnalysis Management Detail Component', () => {
-        let comp: ProfitabilityAnalysisDetailComponent;
-        let fixture: ComponentFixture<ProfitabilityAnalysisDetailComponent>;
-        let service: ProfitabilityAnalysisService;
-
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [CourseworkTestModule],
-                declarations: [ProfitabilityAnalysisDetailComponent],
-                providers: [
-                    JhiDateUtils,
-                    JhiDataUtils,
-                    DatePipe,
-                    {
-                        provide: ActivatedRoute,
-                        useValue: new MockActivatedRoute({id: 123})
-                    },
-                    ProfitabilityAnalysisService,
-                    JhiEventManager
-                ]
-            }).overrideTemplate(ProfitabilityAnalysisDetailComponent, '')
-            .compileComponents();
-        }));
-
-        beforeEach(() => {
-            fixture = TestBed.createComponent(ProfitabilityAnalysisDetailComponent);
-            comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(ProfitabilityAnalysisService);
-        });
-
-        describe('OnInit', () => {
-            it('Should call load all on init', () => {
-            // GIVEN
-
-            spyOn(service, 'find').and.returnValue(Observable.of(new ProfitabilityAnalysis(10)));
-
-            // WHEN
-            comp.ngOnInit();
-
-            // THEN
-            expect(service.find).toHaveBeenCalledWith(123);
-            expect(comp.profitabilityAnalysis).toEqual(jasmine.objectContaining({id: 10}));
-            });
-        });
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [CourseworkTestModule],
+        declarations: [ProfitabilityAnalysisDetailComponent],
+        providers: [{ provide: ActivatedRoute, useValue: route }]
+      })
+        .overrideTemplate(ProfitabilityAnalysisDetailComponent, '')
+        .compileComponents();
+      fixture = TestBed.createComponent(ProfitabilityAnalysisDetailComponent);
+      comp = fixture.componentInstance;
     });
 
+    describe('OnInit', () => {
+      it('Should load profitabilityAnalysis on init', () => {
+        // WHEN
+        comp.ngOnInit();
+
+        // THEN
+        expect(comp.profitabilityAnalysis).toEqual(jasmine.objectContaining({ id: 123 }));
+      });
+    });
+  });
 });

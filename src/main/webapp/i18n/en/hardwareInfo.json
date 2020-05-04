@@ -1,24 +1,25 @@
 {
-    "courseworkApp": {
-        "hardwareInfo" : {
-            "home": {
-                "title": "Hardware Infos",
-                "createLabel": "Create a new Hardware Info",
-                "createOrEditLabel": "Create or edit a Hardware Info",
-                "search": "Search for Hardware Info"
-            },
-            "created": "A new Hardware Info is created with identifier {{ param }}",
-            "updated": "A Hardware Info is updated with identifier {{ param }}",
-            "deleted": "A Hardware Info is deleted with identifier {{ param }}",
-            "delete": {
-                "question": "Are you sure you want to delete Hardware Info {{ id }}?"
-            },
-            "detail": {
-                "title": "Hardware Info"
-            },
-            "hashPower": "Hash Power",
-            "price": "Price",
-            "videocard": "Videocard"
-        }
+  "courseworkApp": {
+    "hardwareInfo": {
+      "home": {
+        "title": "Hardware Infos",
+        "createLabel": "Create a new Hardware Info",
+        "createOrEditLabel": "Create or edit a Hardware Info",
+        "search": "Search for Hardware Info",
+        "notFound": "No Hardware Infos found"
+      },
+      "created": "A new Hardware Info is created with identifier {{ param }}",
+      "updated": "A Hardware Info is updated with identifier {{ param }}",
+      "deleted": "A Hardware Info is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Hardware Info {{ id }}?"
+      },
+      "detail": {
+        "title": "Hardware Info"
+      },
+      "hashPower": "Hash Power",
+      "price": "Price",
+      "videocard": "Videocard"
     }
+  }
 }

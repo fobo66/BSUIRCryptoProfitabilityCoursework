@@ -1,53 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager } from 'ng-jhipster';
 
-import { MiningInfo } from './mining-info.model';
-import { MiningInfoService } from './mining-info.service';
+import { IMiningInfo } from 'app/shared/model/mining-info.model';
 
 @Component({
-    selector: 'jhi-mining-info-detail',
-    templateUrl: './mining-info-detail.component.html'
+  selector: 'jhi-mining-info-detail',
+  templateUrl: './mining-info-detail.component.html'
 })
-export class MiningInfoDetailComponent implements OnInit, OnDestroy {
+export class MiningInfoDetailComponent implements OnInit {
+  miningInfo: IMiningInfo | null = null;
 
-    miningInfo: MiningInfo;
-    private subscription: Subscription;
-    private eventSubscriber: Subscription;
+  constructor(protected activatedRoute: ActivatedRoute) {}
 
-    constructor(
-        private eventManager: JhiEventManager,
-        private miningInfoService: MiningInfoService,
-        private route: ActivatedRoute
-    ) {
-    }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({ miningInfo }) => (this.miningInfo = miningInfo));
+  }
 
-    ngOnInit() {
-        this.subscription = this.route.params.subscribe((params) => {
-            this.load(params['id']);
-        });
-        this.registerChangeInMiningInfos();
-    }
-
-    load(id) {
-        this.miningInfoService.find(id).subscribe((miningInfo) => {
-            this.miningInfo = miningInfo;
-        });
-    }
-    previousState() {
-        window.history.back();
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    registerChangeInMiningInfos() {
-        this.eventSubscriber = this.eventManager.subscribe(
-            'miningInfoListModification',
-            (response) => this.load(this.miningInfo.id)
-        );
-    }
+  previousState(): void {
+    window.history.back();
+  }
 }

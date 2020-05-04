@@ -1,49 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { CourseworkSharedModule } from '../../shared';
-import {
-    VideocardService,
-    VideocardPopupService,
-    VideocardComponent,
-    VideocardDetailComponent,
-    VideocardDialogComponent,
-    VideocardPopupComponent,
-    VideocardDeletePopupComponent,
-    VideocardDeleteDialogComponent,
-    videocardRoute,
-    videocardPopupRoute,
-} from './';
-
-const ENTITY_STATES = [
-    ...videocardRoute,
-    ...videocardPopupRoute,
-];
+import { CourseworkSharedModule } from 'app/shared/shared.module';
+import { VideocardComponent } from './videocard.component';
+import { VideocardDetailComponent } from './videocard-detail.component';
+import { VideocardUpdateComponent } from './videocard-update.component';
+import { VideocardDeleteDialogComponent } from './videocard-delete-dialog.component';
+import { videocardRoute } from './videocard.route';
 
 @NgModule({
-    imports: [
-        CourseworkSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
-    ],
-    declarations: [
-        VideocardComponent,
-        VideocardDetailComponent,
-        VideocardDialogComponent,
-        VideocardDeleteDialogComponent,
-        VideocardPopupComponent,
-        VideocardDeletePopupComponent,
-    ],
-    entryComponents: [
-        VideocardComponent,
-        VideocardDialogComponent,
-        VideocardPopupComponent,
-        VideocardDeleteDialogComponent,
-        VideocardDeletePopupComponent,
-    ],
-    providers: [
-        VideocardService,
-        VideocardPopupService,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [CourseworkSharedModule, RouterModule.forChild(videocardRoute)],
+  declarations: [VideocardComponent, VideocardDetailComponent, VideocardUpdateComponent, VideocardDeleteDialogComponent],
+  entryComponents: [VideocardDeleteDialogComponent]
 })
 export class CourseworkVideocardModule {}
